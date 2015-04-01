@@ -104,4 +104,4 @@ DanmuPlayer在内部定义了一个名字叫做danmu_video的全局videojs对象
 你可以随意使用本项目，只需要在您的项目中添加这么一行注释：
 <code class="language-html">DanmuPlayer (//github.com/chiruom/danmuplayer/) - Licensed under the MIT license</code>
 </pre>
-     		</div>
+
