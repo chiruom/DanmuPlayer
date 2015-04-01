@@ -14,6 +14,7 @@ Danmmu Player意在使开发者能便捷的在网站中实现弹幕视频播放�
 <pre>
 1.第一步引入本播放器的js和css文件,需要和jQuery一起引用。
 <code class=language-html>&lt;link rel=&quot;stylesheet&quot; href=&quot;assets/DanmuPlayer/css/danmuplayer.css&quot;&gt;
+	&lt;script src=&quot;assets/js/jquery-1.11.1.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;assets/DanmuPlayer/js/danmuplayer.js&quot;&gt;&lt;/script&gt;</code></pre>
 <pre>
 2.新建一个div，这里把id值设为danmp
