@@ -1567,7 +1567,7 @@ var is_loop = false;
 var url_to_post_danmu = "";
 var danmu_color = "#ffffff";
 jQuery(document).ready(function() {
-	jQuery("#danmu_text").keydown(function(event) {
+	jQuery("body").keydown(function(event) {
 		if (event.which == 13) {
 			console.log("enter")
 			send_danmu();

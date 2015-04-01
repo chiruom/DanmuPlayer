@@ -1382,6 +1382,7 @@ $.fn.danmu.Constructor = Danmu;
 			// This is functionally the same as the previous example.
 
 			$(".video-js").append('<div id="danmu71452" >');
+			$(".vjs-live-controls").remove();
 
 
 
@@ -1478,7 +1479,7 @@ $.fn.danmu.Constructor = Danmu;
 
 
 			$("#danmu_text").css({
-				"width": "35%",
+				"width": "40%",
 				"left": "auto",
 				"right": "auto",
 				"opacity": "0.5",
@@ -1566,7 +1567,7 @@ var is_loop = false;
 var url_to_post_danmu = "";
 var danmu_color = "#ffffff";
 jQuery(document).ready(function() {
-	jQuery("#danmu_text").keydown(function(event) {
+	jQuery("body").keydown(function(event) {
 		if (event.which == 13) {
 			console.log("enter")
 			send_danmu();
@@ -1628,4 +1629,6 @@ function changehide() {
 		});
 	}
 }
+
+
 
