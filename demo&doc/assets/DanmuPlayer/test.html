@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+  <title>Video.js | HTML5 Video Player</title>
+  <link href="css/danmuplayer.css" rel="stylesheet" type="text/css">
+
+
+
+  <script src="js/lib/jquery-1.11.1.min.js"></script>
+  <script src='js/danmuplayer.js'></script>
+ 
+
+
+
+
+
+</head>
+
+
+<body>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div id="danmup">
+  </div>
+
+
+<script>
+$("#danmup").danmuplayer({
+    speed: 20000,
+    sumtime: 65535,
+    danmuss: {},
+    default_font_color: "#FFFFFF",
+    font_size_small: 16,
+    font_size_big: 24,
+    opacity: "1",
+    top_botton_danmu_time: 5000,
+    url_to_get_danmu:"query.php",
+    url_to_post_danmu:"stone.php"
+
+});
+
+
+
+</script>
+</body>
+</html>
