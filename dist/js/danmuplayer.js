@@ -1327,7 +1327,7 @@ Danmu.prototype.danmu_resume = function(){
 };
 
 Danmu.prototype.danmu_hideall= function(){
-	$('.flying').remove();
+	$('.flying').css({"opacity":0});
 
 };
 
