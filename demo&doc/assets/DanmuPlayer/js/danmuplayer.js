@@ -1327,7 +1327,7 @@ Danmu.prototype.danmu_resume = function(){
 };
 
 Danmu.prototype.danmu_hideall= function(){
-	$('.flying').remove();
+	$('.flying').css({"opacity":0});
 
 };
 
@@ -1423,6 +1423,7 @@ $.fn.danmu.Constructor = Danmu;
 					console.log('playback has started!');
 					$('#danmu71452').data("nowtime", parseInt(danmu_video.currentTime() * 10));
 					$('#danmu71452').danmu("danmu_resume");
+					setTimeout("revise_time()",500)
 
 				});
 
@@ -1621,13 +1622,25 @@ function changehide() {
 		jQuery('#danmu71452').data("opacity", op);
 		jQuery(".flying").css({
 			"opacity": op
-		});
+		}); 
 	} else {
 		jQuery('#danmu71452').data("opacity", 0);
 		jQuery(".flying").css({
 			"opacity": 0
 		});
 	}
+}
+
+
+
+function revise_time(){
+	//"""每隔半秒修正弹幕计时器的时间误差，以确保与视频时间的高同步率"""
+	if( Math.abs($('#danmu71452').data("nowtime") - parseInt(danmu_video.currentTime() * 10))>2 ){
+		console.log("reivise time:("+$('#danmu71452').data("nowtime") +","+parseInt(danmu_video.currentTime() * 10)+")");
+		$('#danmu71452').data("nowtime", parseInt(danmu_video.currentTime() * 10));
+		
+	}
+	t=setTimeout("revise_time()",100);	
 }
 
 
