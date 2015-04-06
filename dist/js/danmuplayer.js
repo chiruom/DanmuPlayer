@@ -1376,10 +1376,12 @@ $.fn.danmu.Constructor = Danmu;
 
 
 			function initer() {
-				this.on('firstplay', function(e) {
-					// $(".video-js").append('<div id="danmu71452" >');
-					if (options.url_to_get_danmu)
-						query();
+		
+				this.on('loadstart',function(e) {
+
+					$(".vjs-big-play-button").css({
+						"z-index": "500"
+					});
 					$(".vjs-control-bar").css({
 						"z-index": "500"
 					});
@@ -1395,7 +1397,11 @@ $.fn.danmu.Constructor = Danmu;
 						font_size_big: options.font_size_big,
 						top_botton_danmu_time: options.top_botton_danmu_time
 					});
+										if (options.url_to_get_danmu)
+						query();
+					
 				});
+				
 
 				this.on('play', function(e) {
 					console.log('playback has started!');
