@@ -1009,6 +1009,9 @@ var cyntax = {
 					delete anims[this[pauseId]];
 				} else {
 					// pause animation
+				// pause animation
+					$(this).stop();
+					$(this).stop();
 					$(this).stop();
 					data.run = false;
 				}
