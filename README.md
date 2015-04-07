@@ -1,6 +1,8 @@
 # DanmuPlayer
-Html5弹幕视频播放器插件
-![Build Status](https://travis-ci.org/videojs/video.js.svg?branch=master)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+##Html5弹幕视频播放器插件
+
 
 Danmmu Player是一个具备弹幕功能的Html5视频播放器。
 具备弹幕视频播放，接受用户发送彩色弹幕，实时调解弹幕显示效果等功能。
