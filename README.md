@@ -80,6 +80,7 @@ dammuss对象每个属性的名称为弹幕所出现的时间点(分秒)，属�
 
 DanmuPlayer在页面载入时，会向url_to_get_danmu所对应的页面发送Get请求，url_to_get_danmu对应页面的http响应报文的内容中应该是一个由danmu对象组成的js数组（字符串形式）。"['{danmmu对象1}','{danmu对象2}',...,'{danmu对象n}']"这样的字符串（遵循JSON格式标准）（在报文中是没有最外面的引号的）(注意：每个danmu对象都要被引号所包裹，否则会产生致命错误)。
 当用户发弹幕时，DanmuPlayer向url_to_post_danmu发送post请求，报文的内容是用户所发弹幕的danmu对象（字符串）（遵循JSON格式标准）。
+如果你需要在get和post的同时向后端发生其他参数，请在URL里以get的形式发送。
 
 在demo&doc目录中有一个简单的php版的url_to_get_danmu和url_to_post_danmu所对应页面的编写示例：
 
