@@ -1563,6 +1563,11 @@ jQuery(document).ready(function() {
 
 function send_danmu() {
 	var text = document.getElementById('danmu_text').value;
+	text = text.replace(/&/g, "&gt;");
+	text = text.replace(/</g, "&lt;");
+	text = text.replace(/>/g, "&gt;");
+	text = text.replace(/\"/g, "&quot;");
+	text = text.replace(/\n/g, "<br>");
 	var color = danmu_color;
 	var position_select = jQuery("[name='danmu_position']").filter(":checked");
 	var position = position_select.attr("value")
