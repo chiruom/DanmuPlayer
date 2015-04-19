@@ -232,6 +232,7 @@ var cyntax = {
     $(element).data("paused",1);
     $(element).data("topspace",0);
     $(element).data("bottomspace",0);
+	$(element).data("speed",options.speed)
 
 
     this.$element .css({
@@ -245,7 +246,7 @@ var cyntax = {
 		"overflow":"hidden"
 	});
     var heig=this.$element.height();
-	var row_conut=parseInt(heig/options.font_size_big);
+	var row_conut=parseInt(heig/options.font_size_big)-3;
 	var rows_used=new Array();
 
 	$("<div class='timer71452'></div>").appendTo(this.$element );
@@ -291,7 +292,7 @@ var cyntax = {
 						//console.log(rows_used.length);
 						if (rows_used.length==row_conut){
 							rows_used =new Array();
-							row_conut=parseInt(heig/options.font_size_big);
+							row_conut=parseInt(heig/options.font_size_big)-3;
 						}
 						var top_local=(row)*options.font_size_big;
 
@@ -301,7 +302,7 @@ var cyntax = {
 										 });
 						var fly_tmp_name="fly"+parseInt(heig*Math.random()).toString();	
 						$("#linshi").attr("id",fly_tmp_name);
-						$('#'+fly_tmp_name).animate({left:-$(this).width()*3,},options.speed
+						$('#'+fly_tmp_name).animate({left:-$(this).width()*3,},$(element).data("speed")
 							,function(){$(this).remove();}	
 						 );
 					}

@@ -2,17 +2,17 @@
 .tooltip71452 {
 	font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei";
 	padding: .6em;
-	width: 18。3em;
+	width: auto;;
 	z-index: 10001;
 	position: absolute;
-	background: #07141E;
-	color: #FFFFFF;
+	background: #fff;
+	color: black;
 	font-size: 90%;
 	display: none;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	opacity: 0.7;
+	opacity: 1;
 	filter: alpha(opacity=100);
 }
 
@@ -21,6 +21,7 @@
 	width: 0;
 	height: 0;
 	margin: 0;
+	color: white;
 }
 
 .tooltip71452.pos_e .pointer {
