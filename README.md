@@ -18,7 +18,7 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 1.第一步引入本播放器的js和css文件,需要和jQuery一起引用。
 
 ```html
-<link rel="stylesheet"; href="css/danmuplayer.css">;
+<link rel="stylesheet" href="css/danmuplayer.css">;
 <script src="js/jquery-1.11.1.min.js"></script>;
 <script src="js/danmuplayer.js"></script>;
 ```
