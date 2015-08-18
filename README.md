@@ -1,7 +1,6 @@
 # DanmuPlayer
 ## Html5弹幕视频播放器插件
-![grunt](https://camo.githubusercontent.com/6fd3ea176e47e98e9a8bf8d25c1ea8cab77e652d…2e696f2f62616467652f6c6963656e73652d4d49542d627269676874677265656e2e737667)![mit](https://camo.githubusercontent.com/6fd3ea176e47e98e9a8bf8d25c1ea8cab77e652d…2e696f2f62616467652f6c6963656e73652d4d49542d627269676874677265656e2e737667)
-
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)     [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕视频播放，接受用户发送彩色弹幕，实时调解弹幕显示效果等功能。 Danmmu Player意在使开发者能便捷的在网站中实现弹幕视频播放。
 
 **完整文档及Demo：http://www.liyawei.cn/danmuplayer/**
@@ -73,10 +72,14 @@ isnew——当出现该属性时（属性值可为任意），会认为这是用
 ```
 
 举例：
- var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60};
+```javascript
+var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60};
+```
 要显示边框的新弹幕：
-var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60 ,"isnew":" "};
 
+```javascript
+var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60 ,"isnew":" "};
+```
 danmuList对象是该弹幕视频中所有danmu对象的集合，是由所有danmu它的存在是为了提高程序的效率。
 每个DanmuPlayer只有一个danmuList对象。DanmuPlayer在运行时会把每个danmu对象写入danmuList对象。
 danmuList对象每个属性的名称为弹幕所出现的时间点(分秒)，属性值为该时间点所出现的所有弹幕的danmu对象(除掉time属性的)所组成的数组。
