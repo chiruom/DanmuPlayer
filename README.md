@@ -129,7 +129,7 @@ _ _ _
 
 ### 许可
 你可以随意使用本项目，只需要在您的项目中添加这么一行注释：
-```javascript
+```
 DanmuPlayer (//github.com/chiruom/danmuplayer/) - Licensed under the MIT license
 ```
 
