@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <!--<link href="src/css/scojs.css" rel="stylesheet">-->
+  <!--<link href="src/css/colpick.css" rel="stylesheet">-->
+  <!--<link href="src/css/bootstrap.css" rel="stylesheet">-->
+  <!--<link rel="stylesheet" href="src/css/main.css">-->
+  <link rel="stylesheet" href="../dist/css/danmuplayer.css">
+</head>
+<body>
+<div id="m2" style="left: 50%;margin-left:-400px;top:150px">
+
+
+</div>
+
+</body>
+<script src="../src/js/jquery-2.1.4.min.js"></script>
+<script src="../dist/js/danmuplayer.min.js"></script>
+<script>
+  $("#m2").DanmuPlayer({
+    src:"level5.mp4",
+    height: "480px", //区域的高度
+    width: "800px" //区域的宽度
+    ,urlToGetDanmu:"query.php"
+    ,urlToPostDanmu:"stone.php"
+  } );
+</script>
+</html>
