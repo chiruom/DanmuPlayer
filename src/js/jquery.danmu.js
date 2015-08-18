@@ -1,4 +1,7 @@
 /**
+ * 专为danmuplayer定制的jquery.danmu.js
+ *
+ *
  * jQuery Generic Plugin Module
  * Version 0.1
  * Copyright (c) 2011 Cyntax Technologies - http://cyntaxtech.com
@@ -96,9 +99,6 @@ var cyntax = {
 					delete anims[this[pauseId]];
 				} else {
 					// pause animation
-				// pause animation
-					$(this).stop();
-					$(this).stop();
 					$(this).stop();
 					data.run = false;
 				}
@@ -143,7 +143,7 @@ var cyntax = {
 		this.timer_info = {id:null, index:null, state:0};
 	};
 	cyntax.plugins.timer.prototype = {
-		defaults : { 
+		defaults : {
 			delay: 1000,      // delay in milliseconds (optional)
 			repeat: false,    // true to repeat the timer continuously, or a number for repeating this number of times (optional)
 			autostart: true,	// timer starts as soon as it is created, set false to start manually
@@ -159,26 +159,26 @@ var cyntax = {
 			return this;
 		},
 		_timer_fn : function() {
-				if (typeof this.options.callback == "function")
-					$.proxy( this.options.callback, this.$this ).call(this, ++this.timer_info.index);
-				else if (typeof this.options.url == "string") {
-					ajax_options = {
-						url: this.options.url,
-						context: this,
-						type: (typeof this.options.post == "string" && typeof this.options.post != "" == "" ? "POST": "GET"),
-						success: function(data, textStatus, jqXHR) {
-							this.$this.html(data);
-						}
-					};
-					if (typeof this.options.post == "string" && typeof this.options.post != "")
-						ajax_options.data = this.options.post;
-					$.ajax(ajax_options);
-				}
-				if ( this.options.repeat && this.timer_info.state == 1 &&
-					(typeof this.options.repeat == "boolean" || parseInt(this.options.repeat) > this.timer_info.index) )
-					this.timer_info.id = setTimeout( $.proxy( this._timer_fn, this ) , this.options.delay );
-				else
-					this.timer_id = null;
+			if (typeof this.options.callback == "function")
+				$.proxy( this.options.callback, this.$this ).call(this, ++this.timer_info.index);
+			else if (typeof this.options.url == "string") {
+				ajax_options = {
+					url: this.options.url,
+					context: this,
+					type: (typeof this.options.post == "string" && typeof this.options.post != "" == "" ? "POST": "GET"),
+					success: function(data, textStatus, jqXHR) {
+						this.$this.html(data);
+					}
+				};
+				if (typeof this.options.post == "string" && typeof this.options.post != "")
+					ajax_options.data = this.options.post;
+				$.ajax(ajax_options);
+			}
+			if ( this.options.repeat && this.timer_info.state == 1 &&
+				(typeof this.options.repeat == "boolean" || parseInt(this.options.repeat) > this.timer_info.index) )
+				this.timer_info.id = setTimeout( $.proxy( this._timer_fn, this ) , this.options.delay );
+			else
+				this.timer_id = null;
 		},
 		start : function() {
 			if (this.timer_info.state == 0) {
@@ -187,7 +187,7 @@ var cyntax = {
 				this.timer_id = setTimeout( $.proxy( this._timer_fn, this ) , this.options.delay);
 			}
 		},
-		
+
 		stop : function(){
 			if ( this.timer_info.state == 1 && this.timer_info.id ) {
 				clearTimeout(this.timer_info.id);
@@ -195,13 +195,13 @@ var cyntax = {
 			}
 			this.timer_info.state = 0;
 		},
-		
+
 		pause : function() {
 			if ( this.timer_info.state == 1 && this.timer_info.id )
 				clearTimeout(this.timer_info.id);
 			this.timer_info.state = 0;
 		},
-		
+
 		resume : function() {
 			this.timer_info.state = 1;
 			this.timer_id = setTimeout( $.proxy( this._timer_fn, this ) , this.options.delay);
@@ -209,13 +209,15 @@ var cyntax = {
 	};
 
 	$.jQueryPlugin( "timer" );
-	
+
 })( jQuery );
-;/*!
+/*!
  *弹幕引擎核心
  *
- * Copyright 2015 by Liyawei Of AcGit.cc 
+ * Copyright 2015 by Ruiko Of AcGit.cc
  * @license MIT
+ *
+ * 版本2.0 2015/08/12
  */
 
 
@@ -223,208 +225,226 @@ var cyntax = {
 ;(function( $ ){
 
 
- var Danmu= function (element, options) {
-    this.$element	= $(element);  
-    this.options	= options;
-    $(element).data("nowtime",0);
-    $(element).data("danmu_array",options.danmuss);
-    $(element).data("opacity",options.opacity);
-    $(element).data("paused",1);
-    $(element).data("topspace",0);
-    $(element).data("bottomspace",0);
-	$(element).data("speed",options.speed)
+	var Danmu= function (element, options) {
+		this.$element	= $(element);
+		this.options	= options;
+		this.id=$(element).attr("id");
+		$(element).data("nowtime",0);
+		$(element).data("danmuList",options.danmuList);
+		$(element).data("opacity",options.opacity);
+		$(element).data("paused",1);
+		$(element).data("topSpace",0);
+		$(element).data("bottomSpace",0);
 
 
-    this.$element .css({
-		"position":"absolute",
-		"left":this.options.left,
-		"top":this.options.top,
-		"width":this.options.width,
-		"height":this.options.height,
-		"z-index":this.options.zindex,
-		"color":options.default_font_color,
-		"overflow":"hidden"
-	});
-    var heig=this.$element.height();
-	var row_conut=parseInt(heig/options.font_size_big)-3;
-	var rows_used=new Array();
+		this.$element .css({
+			"position":"absolute",
+			"left":this.options.left,
+			"top":this.options.top,
+			"width":this.options.width,
+			"height":this.options.height,
+			"z-index":this.options.zindex,
+			"color":options.defaultFontColor,
+			"overflow":"hidden"
+		});
+		var me =this;
 
-	$("<div class='timer71452'></div>").appendTo(this.$element );
-	this.$timer=$(".timer71452");
-	this.$timer.timer({
-		delay: 100,
-		repeat: options.sumtime,
-		autostart: false,
-		callback: function( index ) {
-			heig=$(element).height();
-			//row_conut=parseInt(heig/options.font_size_big);
-			if($(element).data("danmu_array")[$(element).data("nowtime")]){
-				var danmus=$(element).data("danmu_array")[$(element).data("nowtime")];
-				for(var i=0;i<danmus.length;i++){
-					var a_danmu="<div class='flying flying2' id='linshi'></div>";
-					$(element).append(a_danmu);
-					$("#linshi").text(danmus[i].text);
-					$("#linshi").css({
-						"color":danmus[i].color
-						,"text-shadow":" 0px 0px 2px #000000"
-						,"-moz-opacity":$(element).data("opacity")
-						,"opacity": $(element).data("opacity")
-						,"white-space":"nowrap"
-						,"font-weight":"bold"
-						,"font-family":"SimHei" 
-						,"font-size":options.font_size_big
-					});
-					if (danmus[i].color<"#777777")
-						$("#linshi").css({
-							"text-shadow":" 0px 0px 2px #FFFFFF"
+		var heig=this.$element.height();
+		var widt=this.$element.width();
+		var rowCount=parseInt(heig/options.FontSizeBig);
+		var rowUsed=[];
+
+		$("<div class='danmakuTimer'></div>").appendTo(this.$element );
+		this.$timer=$(".danmakuTimer");
+		this.$timer.timer({
+			delay: 100,
+			repeat: options.sumTime,
+			autostart: false,
+			callback: function( index ) {
+				heig=$(element).height();
+				widt=$(element).width();
+				var speed=parseInt(widt/(672/options.speed));
+				if($(element).data("danmuList")[$(element).data("nowtime")]){
+					var danmus=$(element).data("danmuList")[$(element).data("nowtime")];
+					for(var i=0;i<danmus.length;i++){
+						var a_danmu="<div class='danmaku' id='"+me.id+"tempDanmaku'></div>";
+						$(element).append(a_danmu);
+						$("#"+me.id+"tempDanmaku").text(danmus[i].text);
+						$("#"+me.id+"tempDanmaku").css({
+							"color":danmus[i].color
+							,"text-shadow":" 0px 0px 2px #000000"
+							,"-moz-opacity":$(element).data("opacity")
+							,"opacity": $(element).data("opacity")
+							,"white-space":"nowrap"
+							,"font-weight":"bold"
+							,"font-family":"SimHei"
+							,"font-size":options.FontSizeBig
 						});
-					if (danmus[i].hasOwnProperty('isnew')){
-						$("#linshi").css({"border":"2px solid "+danmus[i].color});
-					}
-					if( danmus[i].size == 0)  $("#linshi").css("font-size",options.font_size_small);
-					if  ( danmus[i].position == 0){
-						//var top_local=parseInt(30+(options.height-60)*Math.random());//随机高度
-						var row = parseInt(row_conut*Math.random());
-						while (rows_used.indexOf(row)>=0 ){
-							var row = parseInt(row_conut*Math.random());
+						if (danmus[i].color<"#777777")
+							$("#"+me.id+"tempDanmaku").css({
+								"text-shadow":" 0px 0px 2px #FFFFFF"
+							});
+						if (danmus[i].hasOwnProperty('isnew')){
+							$("#"+me.id+"tempDanmaku").css({"border":"2px solid "+danmus[i].color});
 						}
-						rows_used.push(row);
-						//console.log(rows_used.length);
-						if (rows_used.length==row_conut){
-							rows_used =new Array();
-							row_conut=parseInt(heig/options.font_size_big)-3;
-						}
-						var top_local=(row)*options.font_size_big;
+						if( danmus[i].size == 0)  $("#"+me.id+"tempDanmaku").css("font-size",options.fontSizeSmall);
+						if  ( danmus[i].position == 0){
+                            var x=Math.random();
+                            var row=(rowUsed.length <= rowCount/2)?x*parseInt((rowCount/2)*x):x*parseInt((rowCount)*x);
+							//var row = parseInt(rowCount*(x>(2/3)?(3/2*x-0.5):(0.75*x)));
+							while (rowUsed.indexOf(row)>=0 ){
+								x=Math.random();
+                                row=(rowUsed.length <= rowCount/2)?x*parseInt((rowCount/2)*x):x*parseInt((rowCount)*x);
+							}
+							rowUsed.push(row);
+							if (rowUsed.length==rowCount){
+								rowUsed =[];
+								rowCount=parseInt(heig/options.FontSizeBig);
+							}
+							var top_local=(row)*options.FontSizeBig;
 
-						$("#linshi").css({"position":"absolute"
-										,"top":top_local
-										,"left":options.width
-										 });
-						var fly_tmp_name="fly"+parseInt(heig*Math.random()).toString();	
-						$("#linshi").attr("id",fly_tmp_name);
-						$('#'+fly_tmp_name).animate({left:-$(this).width()*3,},$(element).data("speed")
-							,function(){$(this).remove();}	
-						 );
-					}
-					else if ( danmus[i].position == 1){
-						var top_tmp_name="top"+parseInt(10000*Math.random()).toString();
-						$("#linshi").attr("id",top_tmp_name)
-						$('#'+top_tmp_name).css({
-							"width":options.width
-							,"text-align":"center"
-							,"position":"absolute"
-							,"top":(5+$(element).data("topspace"))
-								 });
-						 $(element).data("topspace",$(element).data("topspace")+options.font_size_big);
-						$('#'+top_tmp_name).fadeTo(options.top_botton_danmu_time,$(element).data("opacity"),function(){
-							$(this).remove();
-							$(element).data("topspace",$(element).data("topspace")-options.font_size_big);
+							$("#"+me.id+"tempDanmaku").css({"position":"absolute"
+								,"top":top_local
+								,"left":options.width
+							});
+							var flyTmpName=me.id+"fly"+parseInt(heig*Math.random()).toString();
+							$("#"+me.id+"tempDanmaku").attr("id",flyTmpName);
+							$("#"+flyTmpName).animate({left:-$(this).width()},speed
+								,function(){$(this).remove();}
+							);
 						}
-						);						
-					}
-					else if ( danmus[i].position == 2){
-						var bottom_tmp_name="top"+parseInt(10000*Math.random()).toString();
-						$("#linshi").attr("id",bottom_tmp_name)
-						$('#'+bottom_tmp_name).css({
-							"width":options.width
-							,"text-align":"center"
-							,"position":"absolute"
-							,"bottom":0+$(element).data("bottomspace")
-								 });
-						$(element).data("bottomspace",$(element).data("bottomspace")+options.font_size_big);
-						$('#'+bottom_tmp_name).fadeTo(options.top_botton_danmu_time,$(element).data("opacity"),function(){
-							$(this).remove();
-							$(element).data("bottomspace",$(element).data("bottomspace")-options.font_size_big)
+						else if ( danmus[i].position == 1){
+							var topTmpId=me.id+"top"+parseInt(10000*Math.random()).toString();
+							$("#"+me.id+"tempDanmaku").attr("id",topTmpId);
+							$("#"+topTmpId).css({
+								"width":"100%"
+								,"text-align":"center"
+								,"position":"absolute"
+								,"top":($(element).data("topSpace"))
+							});
+							//$("#"+topTmpId).removeAttr("id");
+							$(element).data("topSpace",$(element).data("topSpace")+options.FontSizeBig);
+							$("#"+topTmpId).fadeTo(options.topBottonDanmuTime,$(element).data("opacity"),function(){
+									$(this).remove();
+									$(element).data("topSpace",$(element).data("topSpace")-options.FontSizeBig);
+								}
+
+							);
 						}
-						);
-						
-					} //else if
-				}   // for in danmus
-			}  //if (danmus)
+						else if ( danmus[i].position == 2){
+							var bottomTmpId=me.id+"bottom"+parseInt(10000*Math.random()).toString();
+							$("#"+me.id+"tempDanmaku").attr("id",bottomTmpId)
+							$("#"+bottomTmpId).css({
+								"width":options.width
+								,"text-align":"center"
+								,"position":"absolute"
+								,"bottom":0+$(element).data("bottomSpace")
+							});
+							$(element).data("bottomSpace",$(element).data("bottomSpace")+options.FontSizeBig);
+							//$("#"+bottomTmpId).removeAttr("id");
+							$("#"+bottomTmpId).fadeTo(options.topBottonDanmuTime,$(element).data("opacity"),function(){
+									$(this).remove();
+									$(element).data("bottomSpace",$(element).data("bottomSpace")-options.FontSizeBig)
+								}
+							);
+
+						} //else if
+					}   // for in danmus
+				}  //if (danmus)
 				$(element).data("nowtime",$(element).data("nowtime")+1);
-			
-			
-		}
-	});		  
-};
 
 
-Danmu.DEFAULTS = {
-		left: 0,    
-		top: 0 , 
+			}
+		});
+	};
+
+
+	Danmu.DEFAULTS = {
+		left: 0,
+		top: 0 ,
 		height: 360,
 		width: 640,
 		zindex :100,
-		speed:20000,
-		sumtime:65535	,
-		danmuss:{},
-		default_font_color:"#FFFFFF",
-		font_size_small:16,
-		font_size_big:24,
+		speed:7000,
+		sumTime:65535	,
+		danmuList:{},
+		defaultFontColor:"#FFFFFF",
+		fontSizeSmall:16,
+		FontSizeBig:24,
 		opacity:"0.9",
-		top_botton_danmu_time:6000
-	}
+		topBottonDanmuTime:6000
+	};
 
 
 
-Danmu.prototype.danmu_start = function(){	
-	this.$timer.timer('start');
-	this.$element.data("paused",0);
-};
+	Danmu.prototype.danmuStart = function(){
+		this.$timer.timer('start');
+		this.$element.data("paused",0);
+	};
 
-Danmu.prototype.danmu_stop = function(){
-	this.$timer.timer('stop');
-	$('.flying').remove();
-	nowtime=0;
-	this.$element.data("paused",1);
-	this.$element.data("nowtime",0);
-};
+//
+//Danmu.prototype.danmuShow = function(arg){
+//	this.$timer.timer('stop');
+//	$('.danmaku').remove();
+//	nowtime=0;
+//	this.$element.data("paused",1);
+//	this.$element.data("nowtime",0);
+//};
 
-
-Danmu.prototype.danmu_pause = function(){
-	this.$timer.timer('pause');
-	$('.flying').pause();
-	this.$element.data("paused",1);
-};
-
-
-Danmu.prototype.danmu_resume = function(){
-	this.$timer.timer('resume');
-	$('.flying').resume();
-	this.$element.data("paused",0);
-};
-
-Danmu.prototype.danmu_hideall= function(){
-	$('.flying').css({"opacity":0});
-
-};
-
-Danmu.prototype.add_danmu = function(arg){
-	if(this.$element.data("danmu_array")[arg.time]){
-		this.$element.data("danmu_array")[arg.time].push(arg);
-	}
-	else{
-		this.$element.data("danmu_array")[arg.time]=new Array();
-		this.$element.data("danmu_array")[arg.time].push(arg);
-	}
-
-};
-
-	
-function Plugin(option,arg) {
-    return this.each(function () {
-      var $this   = $(this);
-      var options = $.extend({}, Danmu.DEFAULTS, typeof option == 'object' && option);
-      var data    = $this.data('danmu');
-      var action  = typeof option == 'string' ? option : NaN;
-      if (!data) $this.data('danmu', (data = new Danmu(this, options)))
-      if (action)	data[action](arg);  
-    })
-};
+	Danmu.prototype.danmuStop = function(){
+		this.$timer.timer('stop');
+		$("#"+this.id+' .danmaku').remove();
+		nowtime=0;
+		this.$element.data("paused",1);
+		this.$element.data("nowtime",0);
+	};
 
 
-$.fn.danmu             = Plugin;
-$.fn.danmu.Constructor = Danmu;
+	Danmu.prototype.danmuPause = function(){
+		this.$timer.timer('pause');
+		$("#"+this.id+' .danmaku').pause();
+		this.$element.data("paused",1);
+	};
+
+
+	Danmu.prototype.danmuResume = function(){
+		this.$timer.timer('resume');
+		$("#"+this.id+' .danmaku').resume();
+		this.$element.data("paused",0);
+	};
+
+	Danmu.prototype.danmuHideAll= function(){
+		$("#"+this.id+' .danmaku').css({"opacity":0});
+
+	};
+
+	Danmu.prototype.addDanmu = function(arg){
+		//console.log("add"+arg.time);
+		if(this.$element.data("danmuList")[arg.time]){
+			this.$element.data("danmuList")[arg.time].push(arg);
+		}
+		else{
+			this.$element.data("danmuList")[arg.time]=new Array();
+			this.$element.data("danmuList")[arg.time].push(arg);
+		}
+
+	};
+
+
+	function Plugin(option,arg) {
+		return this.each(function () {
+			var $this   = $(this);
+			var options = $.extend({}, Danmu.DEFAULTS, typeof option == 'object' && option);
+			var data    = $this.data('danmu');
+			var action  = typeof option == 'string' ? option : NaN;
+			if (!data) $this.data('danmu', (data = new Danmu(this, options)));
+			if (action)	data[action](arg);
+		})
+	};
+
+
+	$.fn.danmu             = Plugin;
+	$.fn.danmu.Constructor = Danmu;
 
 
 })(jQuery);

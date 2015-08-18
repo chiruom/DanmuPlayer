@@ -1,0 +1,358 @@
+@font-face {
+    font-family: 'Glyphicons Halflings';
+
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+
+
+.danmu-player input:focus {
+    outline: 0;
+
+}
+
+
+.danmu-player input {
+    font-family: "Microsoft YaHei" !important;
+}
+
+.danmu-player input[type="radio"] {
+
+
+-webkit-appearance: none;
+    appearance: none;
+    padding: 2px;
+    border: 2px solid dodgerblue;
+    border-radius: 50%;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    position: relative;
+    cursor: pointer;
+
+}
+
+.danmu-player input[type="radio"]:checked {
+    border-color: dodgerblue;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 4px rgba(102, 175, 233, .6);
+    -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 4px rgba(102, 175, 233, .6);
+    -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 4px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.danmu-player input[type="radio"]:checked::before {
+    content: "\0020";
+    display: block;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    left: 50%;
+    top: 50%;
+    margin-left: -3px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background-color: dodgerblue;
+}
+
+.danmu-player input[type="range"] {
+    /*-webkit-box-shadow: 0 1px 0 0#424242, 0 1px 0 #060607 inset, 0 2px 10px 0 black inset, 1px 0px 2px rgba(0, 0, 0, 0.4) inset, 0 0px 1px rgba(0, 0, 0, 0.6) inset;*/
+    /*margin-top: 2px;*/
+    background-color: slategrey;
+    /*border-radius: 1px;*/
+    /*width: 400px;*/
+    /*border:  white solid 5px;*/
+    top: 17px;
+    -webkit-appearance: none;
+    height:2px !important;
+    cursor: pointer;
+}
+
+
+
+.danmu-player input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: default;
+    top: -5px;
+    height: 10px;
+    width: 10px;
+    /*transform: translateY(-4px);*/
+    background-color: dodgerblue;
+    border-radius: 5px;
+    /*-webkit-box-shadow: 0 -1px 1px black inset;*/
+}
+
+.danmu-player input[type=range]::-moz-range-thumb {
+    -webkit-appearance: none;
+    cursor: default;
+    top: -5px;
+    height: 10px;
+    width: 10px;
+    /*transform: translateY(-4px);*/
+    background-color: dodgerblue;
+    border-radius: 5px;
+    border: none;
+    /*-webkit-box-shadow: 0 -1px 1px black inset;*/
+}
+
+.danmu-player {
+    position: relative;
+    background-color: black;
+    box-shadow: rgb(85, 85, 85) 0px 0px 3px;
+    font-family: "Microsoft YaHei" !important;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+}
+
+
+.danmu-player .danmu-div{
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: calc(100% - 45px) !important;
+    z-index: 998 !important;
+}
+
+.danmu-player .danmu-player-ctrl{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 45px;
+    width: 100%;
+    background-color: white;
+}
+
+.danmu-player .danmu-video{
+    width: 100%;
+    height: calc(100% - 45px);
+}
+
+.danmu-player  .ctrl-progress{
+    position:relative ;
+    width: 100%;
+    height: 10px;
+    background-color: gray;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.danmu-player  .ctrl-progress .current {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*width: 0;*/
+    height: 100%;
+    background-color: lightskyblue;
+    /*transition: width .1s;*/
+    border-bottom-right-radius: 5px; ;
+    border-top-right-radius: 5px; ;
+    z-index: 1003;
+}
+
+
+.danmu-player .danmaku {
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    cursor: default;
+}
+
+.danmu-player  .ctrl-progress .buffered{
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*width: 0;*/
+    height: 100%;
+    background-color: slategrey;
+    z-index: 1002;
+}
+
+.danmu-player  .ctrl-progress .progress-handle {
+    position: absolute;
+    top: 0;
+    right:-5px;
+    width: 12px;
+    height: 100%;
+    line-height: 5px;
+    background-color: lightskyblue;
+    color: dodgerblue;
+    /*box-shadow: -1px -1px white;*/
+    border-bottom-right-radius: 5px; ;
+    border-top-right-radius: 5px; ;
+    z-index: 1004;
+    overflow: visible;
+}
+
+.danmu-player   .progress-handle span {
+    vertical-align: middle;
+    font-size: 12px;
+    position: relative;
+    top: -1px;
+    left: 2px;
+
+}
+.danmu-player .ctrl-main {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    color: slategrey;
+    vertical-align: middle;
+
+}
+
+.danmu-player  .ctrl-btn {
+    display: inline-block;
+    height: 100%;
+    float: left;
+    width: auto;
+}
+
+.danmu-player .play-btn {
+    width: 50px;
+    height: 100%;
+    background-color: dodgerblue;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
+.danmu-player .play-btn:hover {
+    background-color:#222;
+}
+
+
+
+.danmu-player .time-text{
+    font-size: 14px;
+    height: 100%;
+    cursor: default;
+
+}
+
+.danmu-player .current-time{
+    color: dodgerblue;
+    width: auto;
+    padding-left: 4%;
+}
+
+
+.danmu-player .slash{
+    width: auto;
+}
+
+.danmu-player .duration{
+padding-right: 4%;
+}
+
+
+
+
+.danmu-player .opt-btn {
+    color: dodgerblue;
+    padding-right: 2px;
+    cursor: pointer;
+}
+
+
+.danmu-player .opt-btn:hover {
+    color: #222222;
+
+}
+
+
+
+.danmu-player .danmu-input{
+    margin-top: 5px;
+    height: 25px;
+    line-height: 25px;
+    width: 40%;
+    border: 1px slategrey solid;
+    border-right: none;
+
+}
+
+
+.danmu-player .danmu-input:focus{
+
+    border: 1px dodgerblue solid;
+    border-right: none;
+}
+
+.danmu-player .send-btn {
+    margin-top: 5px;
+    padding: 0 5px;
+    height: 25px;
+    color: white;
+    background-color: dodgerblue;
+    line-height: 25px;
+    cursor: pointer;
+}
+
+.danmu-player .send-btn:hover {
+    background-color:#222;
+
+}
+
+
+
+
+.danmu-player .ctrl-btn-right {
+    width: 4%;
+    margin: auto;
+    padding-right: 5px;
+    padding-left: 5px;
+    display: inline-block;
+    height: 100%;
+    float: right;
+    text-align: center;
+    cursor: pointer;
+    color: slategrey;
+}
+
+
+
+.danmu-player .opacity {
+    position: relative;
+    right: 10px;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    width: 12% !important;
+    max-width: 150px;
+}
+.danmu-player .danmu-op {
+    width: 100% ;
+    position: relative;
+    padding: 0 !important;
+}
+
+.danmu-player .ctrl-btn-right:hover {
+    color: #111;
+}
+
+.danmu-player .ctrl-btn-right-active {
+    color: #222;
+}
+
+.danmu-player .full-screen {
+  
+margin-right: 5px;
+}
+
+
+
+.danmu-player-full-screen{
+    position:fixed  ! important ;
+    z-index:997  ! important ;
+    top:0 ! important;
+    left:0 ! important ;
+    height:100vh  ! important ;
+    width:100vw  ! important ;
+}
+
+
+.danmu-player-tip {
+/*display:none;*/
+
+}

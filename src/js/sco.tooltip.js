@@ -1,5 +1,5 @@
 /* ==========================================================
- * sco.tooltip71452.js
+ * sco.tooltip.js
  * http://github.com/terebentina/sco.js
  * ==========================================================
  * Copyright 2013 Dan Caragea.
@@ -22,14 +22,14 @@
 ;(function($, undefined) {
 	"use strict";
 
-	var pluginName = 'scojs_tooltip71452';
+	var pluginName = 'scojs_tooltip';
 
 	function Tooltip($trigger, options) {
 		this.options = $.extend({}, $.fn[pluginName].defaults, options);
 		this.$trigger = this.$target = $trigger;
 		this.leaveTimeout = null;
 
-		this.$tooltip71452 = $('<div class="tooltip71452"><span></span><div class="pointer"></div></div>').appendTo(this.options.appendTo).hide();
+		this.$tooltip714 = $('<div class="tooltip714"> <span></span><div class="pointer714"></div></div>').appendTo(this.options.appendTo).hide();
 		if (this.options.contentElem !== undefined && this.options.contentElem !== null) {
 			this.options.content = $(this.options.contentElem).html();
 		} else if (this.options.contentAttr !== undefined && this.options.contentAttr !== null) {
@@ -38,16 +38,16 @@
 		if (this.$trigger && this.$trigger.attr('title')) {
 			this.$trigger.data('originalTitle', this.$trigger.attr('title'));
 		}
-		this.$tooltip71452.find('span').html(this.options.content);
+		this.$tooltip714.find('span').html(this.options.content);
 		if (this.options.cssclass != '') {
-			this.$tooltip71452.addClass(this.options.cssclass);
+			this.$tooltip714.addClass(this.options.cssclass);
 		}
 		if (this.options.target !== undefined) {
 			this.$target = $(this.options.target);
 		}
 		if (this.options.hoverable) {
 			var self = this;
-			this.$tooltip71452.on('mouseenter.' + pluginName, $.proxy(this.do_mouseenter, self))
+			this.$tooltip714.on('mouseenter.' + pluginName, $.proxy(this.do_mouseenter, self))
 						 .on('mouseleave.' + pluginName, $.proxy(this.do_mouseleave, self))
 						 .on('close.' + pluginName, $.proxy(this.hide, self));
 		}
@@ -59,10 +59,11 @@
 			if (allowMirror === undefined) {
 				allowMirror = false;
 			}
-			this.$tooltip71452.removeClass('pos_w pos_e pos_n pos_s pos_nw pos_ne pos_se pos_sw pos_center').addClass('pos_' + this.options.position);
+			console.log(this.options.position);
+			this.$tooltip714.removeClass('pos_w pos_e pos_n pos_s pos_nw pos_ne pos_se pos_sw pos_center').addClass('pos_' + this.options.position);
 			var  targetBox = this.$target.offset()
-				,tooltip71452Box = {left: 0, top: 0, width: Math.floor(this.$tooltip71452.outerWidth()), height: Math.floor(this.$tooltip71452.outerHeight())}
-				,pointerBox = {left: 0, top: 0, width: Math.floor(this.$tooltip71452.find('.pointer').outerWidth()), height: Math.floor(this.$tooltip71452.find('.pointer').outerHeight())}
+				,tooltipBox = {left: 0, top: 0, width: Math.floor(this.$tooltip714.outerWidth()), height: Math.floor(this.$tooltip714.outerHeight())}
+				,pointerBox = {left: 0, top: 0, width: Math.floor(this.$tooltip714.find('.pointer').outerWidth()), height: Math.floor(this.$tooltip714.find('.pointer').outerHeight())}
 				,docBox = {left: $(document).scrollLeft(), top: $(document).scrollTop(), width: $(window).width(), height: $(window).height()}
 				;
 			targetBox.left = Math.floor(targetBox.left);
@@ -70,24 +71,65 @@
 			targetBox.width = Math.floor(this.$target.outerWidth());
 			targetBox.height = Math.floor(this.$target.outerHeight());
 
+
 			if (this.options.position === 'w') {
-				tooltip71452Box.left = targetBox.left - tooltip71452Box.width - pointerBox.width;
-				tooltip71452Box.top = targetBox.top + Math.floor((targetBox.height - tooltip71452Box.height) / 2);
-				pointerBox.left = tooltip71452Box.width;
+				tooltipBox.left = targetBox.left - tooltipBox.width - pointerBox.width;
+				tooltipBox.top = targetBox.top + Math.floor((targetBox.height - tooltipBox.height) / 2);
+				pointerBox.left = tooltipBox.width;
 				pointerBox.top = Math.floor(targetBox.height / 2);
+			} else if (this.options.position === 'e') {
+				tooltipBox.left = targetBox.left + targetBox.width + pointerBox.width;
+				tooltipBox.top = targetBox.top + Math.floor((targetBox.height - tooltipBox.height) / 2);
+				pointerBox.left = -pointerBox.width;
+				pointerBox.top = Math.floor(tooltipBox.height / 2);
 			} else if (this.options.position === 'n') {
-				tooltip71452Box.left = targetBox.left - Math.floor((tooltip71452Box.width - targetBox.width) / 2)-$("#danmu71452").offset().left;
-				tooltip71452Box.top = targetBox.top-tooltip71452Box.height-pointerBox.height-$("#danmu71452").offset().top;
-				pointerBox.left = Math.floor(tooltip71452Box.width / 2);
-				pointerBox.top = tooltip71452Box.height;
-			} 
+//				console.log(targetBox.top );
+//console.log(Math.floor($(this.options.appendTo).offset().top));
+				//tooltipBox.left = targetBox.left - Math.floor((tooltipBox.width - targetBox.width) / 2)-Math.floor($(this.options.appendTo).offset().left);
+				//tooltipBox.top = targetBox.top - tooltipBox.height - pointerBox.height-Math.floor($(this.options.appendTo).offset().top);
+				tooltipBox.left = targetBox.left - Math.floor((tooltipBox.width - targetBox.width) / 2)-Math.floor($(this.options.appendTo).offset().left);
+				tooltipBox.top = targetBox.top - tooltipBox.height -Math.floor($(this.options.appendTo).offset().top);
+				pointerBox.left = Math.floor(tooltipBox.width / 2);
+				pointerBox.top = tooltipBox.height;
+			} else if (this.options.position === 's') {
+				tooltipBox.left = targetBox.left - Math.floor((tooltipBox.width - targetBox.width) / 2);
+				tooltipBox.top = targetBox.top + targetBox.height + pointerBox.height;
+				pointerBox.left = Math.floor(tooltipBox.width / 2);
+				pointerBox.top = -pointerBox.height;
+			} else if (this.options.position === 'nw') {
+				tooltipBox.left = targetBox.left - tooltipBox.width + pointerBox.width;	// +pointerBox.width because pointer is under
+				tooltipBox.top = targetBox.top - tooltipBox.height - pointerBox.height;
+				pointerBox.left = tooltipBox.width - pointerBox.width;
+				pointerBox.top = tooltipBox.height;
+			} else if (this.options.position === 'ne') {
+				tooltipBox.left = targetBox.left + targetBox.width - pointerBox.width;
+				tooltipBox.top = targetBox.top - tooltipBox.height - pointerBox.height;
+				pointerBox.left = 1;
+				pointerBox.top = tooltipBox.height;
+			} else if (this.options.position === 'se') {
+				tooltipBox.left = targetBox.left + targetBox.width - pointerBox.width;
+				tooltipBox.top = targetBox.top + targetBox.height + pointerBox.height;
+				pointerBox.left = 1;
+				pointerBox.top = -pointerBox.height;
+			} else if (this.options.position === 'sw') {
+				tooltipBox.left = targetBox.left - tooltipBox.width + pointerBox.width;
+				tooltipBox.top = targetBox.top + targetBox.height + pointerBox.height;
+				pointerBox.left = tooltipBox.width - pointerBox.width;
+				pointerBox.top = -pointerBox.height;
+			} else if (this.options.position === 'center') {
+				tooltipBox.left = targetBox.left + Math.floor((targetBox.width - tooltipBox.width) / 2);
+				tooltipBox.top = targetBox.top + Math.floor((targetBox.height - tooltipBox.height) / 2);
+				allowMirror = false;
+				this.$tooltip714.find('.pointer').hide();
+			}
 
 
 
-			this.$tooltip71452.css({left: tooltip71452Box.left, top: tooltip71452Box.top})
+			this.$tooltip714.css({left: tooltipBox.left, top: tooltipBox.top});
+
 
 			this.$trigger.removeAttr('title');
-			this.$tooltip71452.show();
+			this.$tooltip714.show();
 			return this;
 		}
 
@@ -98,7 +140,7 @@
 			if (typeof this.options.on_close == 'function') {
 				this.options.on_close.call(this);
 			}
-			this.$tooltip71452.hide();
+			this.$tooltip714.hide();
 		}
 
 		,do_mouseenter: function() {
@@ -175,20 +217,20 @@
 		 contentElem: null
 		,contentAttr: null
 		,content: ''
-		,hoverable: true		// should mouse over tooltip71452 hold the tooltip71452 or not?
-		,delay: 200
+		,hoverable: true		// should mouse over tooltip hold the tooltip or not?
+		,delay: 0
 		,cssclass: ''
 		,position: 'n'			// n,s,e,w,ne,nw,se,sw,center
 		,autoclose: true
-		,appendTo: 'body'	// where should the tooltip71452s be appended to (default to document.body). Added for unit tests, not really needed in real life.
+		,appendTo: 'body'	// where should the tooltips be appended to (default to document.body). Added for unit tests, not really needed in real life.
 	};
 
-	$(document).on('mouseenter.' + pluginName, '[data-trigger="tooltip71452"]', function() {
+	$(document).on('mouseenter.' + pluginName, '[data-trigger="tooltip"]', function() {
 		$(this)[pluginName]('do_mouseenter');
-	}).on('mouseleave.' + pluginName, '[data-trigger="tooltip71452"]', function() {
+	}).on('mouseleave.' + pluginName, '[data-trigger="tooltip"]', function() {
 		$(this)[pluginName]('do_mouseleave');
 	});
-	$(document).off('click.' + pluginName, '[data-dismiss="tooltip71452"]').on('click.' + pluginName, '[data-dismiss="tooltip71452"]', function(e) {
-		$(this).closest('.tooltip71452').trigger('close');
+	$(document).off('click.' + pluginName, '[data-dismiss="tooltip"]').on('click.' + pluginName, '[data-dismiss="tooltip"]', function(e) {
+		$(this).closest('.tooltip').trigger('close');
 	});
 })(jQuery);
