@@ -100,6 +100,10 @@ var cyntax = {
 				} else {
 					// pause animation
 					$(this).stop();
+					$(this).stop();
+					$(this).stop();
+					$(this).stop();
+					$(this).stop();
 					data.run = false;
 				}
 			}
@@ -253,7 +257,7 @@ var cyntax = {
 		var widt=this.$element.width();
 		var rowCount=parseInt(heig/options.FontSizeBig);
 		var rowUsed=[];
-
+this.shiftFlat=0;
 		$("<div class='danmakuTimer'></div>").appendTo(this.$element );
 		this.$timer=$(".danmakuTimer");
 		this.$timer.timer({
@@ -261,6 +265,12 @@ var cyntax = {
 			repeat: options.sumTime,
 			autostart: false,
 			callback: function( index ) {
+				if(me.shiftFlat > 15){
+					rowUsed.shift();
+					me.shiftFlat=0;
+				}
+				me.shiftFlat=me.shiftFlat+1;
+				rowCount=parseInt(heig/options.FontSizeBig);
 				heig=$(element).height();
 				widt=$(element).width();
 				var speed=parseInt(widt/(672/options.speed));
@@ -289,17 +299,27 @@ var cyntax = {
 						}
 						if( danmus[i].size == 0)  $("#"+me.id+"tempDanmaku").css("font-size",options.fontSizeSmall);
 						if  ( danmus[i].position == 0){
-                            var x=Math.random();
-                            var row=(rowUsed.length <= rowCount/2)?x*parseInt((rowCount/2)*x):x*parseInt((rowCount)*x);
-							//var row = parseInt(rowCount*(x>(2/3)?(3/2*x-0.5):(0.75*x)));
-							while (rowUsed.indexOf(row)>=0 ){
-								x=Math.random();
-                                row=(rowUsed.length <= rowCount/2)?x*parseInt((rowCount/2)*x):x*parseInt((rowCount)*x);
+                           var danmakuOP=parseInt(rowCount/2);
+                            var row=parseInt(danmakuOP*Math.random());
+							//var row var i = 0;
+							console.log("row"+row);
+							console.log("rowUsed"+rowUsed);
+							while (rowUsed.indexOf(row)>=0 && rowUsed.length < rowCount ){
+								console.log("re");
+                                row=(row+1)%rowCount;
+								console.log("new row"+row);
 							}
+							//var row=parseInt(Math.random()*rowCount);
+							////var row var i = 0;
+                            //
+							//while (rowUsed.indexOf(row)>=0 && rowUsed.length <= rowCount ){
+							//	row=parseInt(Math.random()*rowCount);
+							//}
+
+
 							rowUsed.push(row);
-							if (rowUsed.length==rowCount){
-								rowUsed =[];
-								rowCount=parseInt(heig/options.FontSizeBig);
+							if (rowUsed.length >= rowCount){
+								rowUsed=[];
 							}
 							var top_local=(row)*options.FontSizeBig;
 
