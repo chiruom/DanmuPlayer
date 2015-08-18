@@ -98,6 +98,7 @@ var danmuList={ 1:[ { "text":"hahahaha" , "color":"red" ,"size":"0","position":"
 上面的danmuList被传入播放器的效果为：在第1分秒，3分秒，50分秒是播放对应的弹幕
 _ _ _
 6.在这一节中，告诉米娜桑如何和后端连接将弹幕存储于数据库。DanmuPlayer提供了高度封装的和后端ajax交互的接口，你只需按照接口修改出一个或两个后端页面即可。
+
 **方法1：**
 在初始化DanmuPlayer时，两个参数urlToGetDanmu和urlToPostDanmu就是用来和后端连接的。urlToGetDanmu用来获取弹幕，urlToPostDanmu用来存储弹幕。urlToGetDanmu和urlToPostDanmu接受的参数都是url。
 
