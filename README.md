@@ -1,7 +1,7 @@
 # DanmuPlayer
 ## Html5弹幕视频播放器插件
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
-[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+![grunt](https://camo.githubusercontent.com/6fd3ea176e47e98e9a8bf8d25c1ea8cab77e652d…2e696f2f62616467652f6c6963656e73652d4d49542d627269676874677265656e2e737667)![mit](https://camo.githubusercontent.com/6fd3ea176e47e98e9a8bf8d25c1ea8cab77e652d…2e696f2f62616467652f6c6963656e73652d4d49542d627269676874677265656e2e737667)
+
 Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕视频播放，接受用户发送彩色弹幕，实时调解弹幕显示效果等功能。 Danmmu Player意在使开发者能便捷的在网站中实现弹幕视频播放。
 
 **完整文档及Demo：http://www.liyawei.cn/danmuplayer/**
@@ -17,7 +17,7 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 
 1.第一步引入本播放器的js和css文件,需要和jQuery一起引用。
 
-```
+```html
 <link rel="stylesheet"; href="css/danmuplayer.css">;
 <script src="js/jquery-1.11.1.min.js"></script>;
 <script src="js/danmuplayer.js"></script>;
@@ -25,13 +25,13 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 _ _ _
 2.新建一个div，这里把id值设为danmp
 
-```
+```html
 <div id="danmup"></div>
 ```
 _ _ _
 3.初始化DanmuPlayer，利用刚才新建的div.
 
-```
+```javascript
 $("#danmup").danmuplayer({
   src:"shsn.mp4",       //视频源
   width:800,			//视频宽度
@@ -45,7 +45,7 @@ $("#danmup").danmuplayer({
 _ _ _
 4.在上一步中，我们用调用某jQuery对象的方法初始化了一个弹幕播放器，并传递了一些参数（src,width,height）。其实这个方法具有以下参数 （除了视频源外其余参数均可选，冒号后面的为默认值）
 
-```
+```javascript
 src: "shsn.mp4",    //视频源
 height: 450,             //播放器的高度
 width: 800,				//播放器的宽度,最小宽度支持为720
@@ -63,7 +63,7 @@ urlToPostDanmu:""    //用来存储弹幕信息的url  (稍后介绍)
 _ _ _
 5.在这一节中，向米娜桑介绍DanmuPlayer中的两种js对象，danmu对象及danmuList对象。
 
-```
+```javascript
 danmu对象意指具体某一条弹幕以及它的信息，它有如下属性：
 text——弹幕文本内容。
 color——弹幕颜色。 position——弹幕位置 “0”为滚动 “1” 为顶部 “2”为底部
@@ -81,7 +81,7 @@ danmuList对象是该弹幕视频中所有danmu对象的集合，是由所有dan
 每个DanmuPlayer只有一个danmuList对象。DanmuPlayer在运行时会把每个danmu对象写入danmuList对象。
 danmuList对象每个属性的名称为弹幕所出现的时间点(分秒)，属性值为该时间点所出现的所有弹幕的danmu对象(除掉time属性的)所组成的数组。
 例如:
-```
+```javascript
 var danmuList={ 1:[ { "text":"hahahaha" , "color":"red" ,"size":"0","position":"0"},
 { "text":"233333" , "color":"red" ,"size":"0","position":"2"} ],
  3:[ { "text":"poi" , "color":"red" ,"size":"1","position":"1"},
@@ -112,8 +112,8 @@ DanmuPlayer在页面载入时，会向urlToGetDanmu所对应的页面发送Get�
 DanmuPlayer中有一个class为danmu-div的标签（此标签是一个jQuery.danmu.js的容器,详情请参照<a target="_blank" href="http://github.com/chiruom/danmu">jQuery.danmu.js项目</a>）
 可以调用jQuery.danmu.js的addDanmu方法逐一添加弹幕（注意选择器要带上播放器的id以避免冲突）：
 
-```
-<code class="language-js">$('#danmp .danmu-div').danmu(addDanmu,danmu类型对象);
+```javascript
+$('#danmp .danmu-div').danmu(addDanmu,danmu类型对象);
 ```
 
 
@@ -129,7 +129,7 @@ _ _ _
 
 ### 许可
 你可以随意使用本项目，只需要在您的项目中添加这么一行注释：
-```
+```javascript
 DanmuPlayer (//github.com/chiruom/danmuplayer/) - Licensed under the MIT license
 ```
 
