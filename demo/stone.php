@@ -28,7 +28,7 @@ mysql_query("set names 'utf8'"); //
 
 $danmu=$_POST['danmu'];
 //$sql="INSERT INTO `danmu` VALUES ('".$danmu."')";
-$sql="INSERT INTO `danmu` VALUES ('".$danmu."','')";
+$sql="INSERT INTO `danmu`(`id`,`danmu`) VALUES ('','".$danmu."')";
 echo $sql;
 $query=mysql_query($sql); 
 //echo $danmu;

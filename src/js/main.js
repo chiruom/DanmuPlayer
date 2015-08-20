@@ -47,7 +47,8 @@
             fontSizeSmall: options.fontSizeSmall,
             FontSizeBig: options.FontSizeBig,
             topBottonDanmuTime: options.topBottonDanmuTime,
-            danmuList:options.danmuList
+            SubtitleProtection:true,
+            positionOptimize:true
         });
 
 
@@ -158,7 +159,7 @@
             var color = e.data.that.danmuColor;
             var position = $(e.data.that.id +" input[name=danmu_position]:checked").val();
             var size = $(e.data.that.id  +" input[name=danmu_size]:checked").val();
-            var time = $(e.data.that.id +" .danmu-div").data("nowtime") + 5;
+            var time = $(e.data.that.id +" .danmu-div").data("nowTime") + 1;
             var textObj = '{ "text":"' + text + '","color":"' + color + '","size":"' + size + '","position":"' + position + '","time":' + time + '}';
             if (e.data.that.options.urlToPostDanmu)
                 $.post(e.data.that.options.urlToPostDanmu, {
@@ -173,15 +174,29 @@
             $(e.data.that).trigger("senddanmu");
         };
 
+        //播放暂停
+        this.playPause=function(e){
+            if ( e.data.video.paused ) {
+                e.data.video.play();
+                $(e.data.that.id + " .danmu-div").danmu('danmuResume');
+                $(e.data.that.id + " .play-btn span").removeClass("glyphicon-play").addClass("glyphicon-pause");
+            }
+            else {
+                e.data.video.pause();
+                $(e.data.that.id + " .danmu-div").danmu('danmuPause');
+                $(e.data.that.id + " .play-btn span").removeClass("glyphicon-pause").addClass("glyphicon-play");
+            }
+        };
+
         //主计时器
         var mainTimer=setInterval(function(){
             //缓冲条
             var buffPrecent=$(that.id+ " .danmu-video").get(0).buffered.length*100;
             $(that.id+".danmu-player .ctrl-progress .buffered ").css("width",buffPrecent+"%");
             //时间轴修正
-            if(Math.abs($(that.id+" .danmu-div").data("nowtime") - parseInt(that.video.currentTime*10)) > 1){
-                console.log("revise:"+ $(that.id+" .danmu-div").data("nowtime")+","+parseInt(that.video.currentTime*10));
-                $(that.id+" .danmu-div").data("nowtime",parseInt(that.video.currentTime*10));
+            if(Math.abs($(that.id+" .danmu-div").data("nowTime") - that.video.currentTime) > 0.5){
+                console.log("revise:"+ $(that.id+" .danmu-div").data("nowTime")+","+parseInt(that.video.currentTime));
+                $(that.id+" .danmu-div").data("nowTime",parseInt(that.video.currentTime));
             }
         },1000);
 
@@ -193,45 +208,56 @@
                     return false
                 }
                 else if(event.which == 32){
-                    if ( e.data.video.paused ) {
-                        e.data.video.play();
-                        $(e.data.that.id + " .danmu-div").danmu('danmuResume');
-                        $(e.data.that.id + " .play-btn span").removeClass("glyphicon-play").addClass("glyphicon-pause");
-                    }
-                    else {
-                        e.data.video.pause();
-                        $(e.data.that.id + " .danmu-div").danmu('danmuPause');
-                        $(e.data.that.id + " .play-btn span").removeClass("glyphicon-pause").addClass("glyphicon-play");
-                    }
+                    that.playPause(e);
                 }
             });
         });
 
 
+
+
         //播放事件
         $(this.id+" .play-btn").on("click",{video:this.video,that:that},function(e){
-            if ( e.data.video.paused ) {
-                e.data.video.play();
-                $(e.data.that.id + " .danmu-div").danmu('danmuResume');
-                $(e.data.that.id + " .play-btn span").removeClass("glyphicon-play").addClass("glyphicon-pause");
-            }
-            else {
-                e.data.video.pause();
-                $(e.data.that.id + " .danmu-div").danmu('danmuPause');
-                $(e.data.that.id + " .play-btn span").removeClass("glyphicon-pause").addClass("glyphicon-play");
-            }
+            that.playPause(e);
+        });
+        $(this.id+" .danmu-div").on("click",{video:this.video,that:that},function(e){
+            that.playPause(e);
+
         });
 
         //waiting事件
         $(this.id+ " .danmu-video").on('waiting',{that:that}, function(e) {
 
             if ($(e.data.that.id+ " .danmu-video").get(0).currentTime == 0) {
-                $(e.data.that.id+" .danmu-div").data("nowtime", 0);
+                $(e.data.that.id+" .danmu-div").data("nowTime", 0);
             } else {
-                $(e.data.that.id+" .danmu-div").data("nowtime", parseInt($(e.data.that.id+ " .danmu-video").get(0).currentTime * 10));
+                $(e.data.that.id+" .danmu-div").data("nowTime", parseInt($(e.data.that.id+ " .danmu-video").get(0).currentTime));
+                $(e.data.that.id+" .danmu-div").data("danmuPause");
             }
 
         });
+
+        //playing事件
+        $(this.id+ " .danmu-video").on('waiting',{that:that}, function(e) {
+
+            if ($(e.data.that.id+ " .danmu-video").get(0).currentTime == 0) {
+                $(e.data.that.id+" .danmu-div").data("nowTime", 0);
+                $(e.data.that.id+" .danmu-div").data("danmuResume");
+            } else {
+                $(e.data.that.id+" .danmu-div").data("nowTime", parseInt($(e.data.that.id+ " .danmu-video").get(0).currentTime));
+                $(e.data.that.id+" .danmu-div").data("danmuResume");
+            }
+
+        });
+
+
+
+        //seeked事件
+        $(this.id+ " .danmu-video").on('seeked seeking',{that:that}, function(e) {
+            $(that.id+ ".danmaku").remove();
+        });
+
+
 
         //调整透明度事件
         $(this.id+ " .danmu-op").on('mouseup',{that:that}, function(e) {
@@ -289,6 +315,9 @@
         //时间改变事件
         $(this.id+ " .danmu-video").on('loadedmetadata',{video:this.video,that:that}, function(e) {
             e.data.that.duration= e.data.video.duration;
+            var duraMin=parseInt(e.data.that.duration/60);
+            var duraSec=parseInt(e.data.that.duration%60)<10? "0"+parseInt(e.data.that.duration%60) : parseInt(e.data.that.duration%60);
+            $(e.data.that.id+" .duration").text(duraMin+":"+duraSec);
             $(e.data.that.id+ " .danmu-video").on('timeupdate',{video:e.data.video,that: e.data.that}, function(e) {
                 var current=e.data.that.current =  e.data.video.currentTime;
                 var curMin=parseInt(current/60);
@@ -357,7 +386,6 @@
         zindex :100,
         speed:20000,
         sumTime:65535,
-        danmuList:{},
         defaultColor:"#ffffff",
         fontSizeSmall:16,
         FontSizeBig:24,

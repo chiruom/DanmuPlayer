@@ -9,9 +9,12 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 ```
 此版本为V2版本，相对V1主要做了以下更新：
 1.和videojs解耦合，提高了运行效率和稳定性。
-2.API规范化。  *API有较大变化。
+2.API规范化。
 3.弹幕较少时主要飘于视频的上半部分，与AB站相同。
 4.一个页面可以添加多个播放器啦。
+5.弹幕对象的时间改为秒，不再用分秒作为单位了。
+6.性能的优化，更少的CPU占用和漏帧。
+*：此版本API较上一版本有较大改变，若需使用上一版本，请去OldEdition目录下。
 ```
 ###开始使用
 
@@ -61,43 +64,34 @@ urlToGetDanmu:"",     //用来接收弹幕信息的url  (稍后介绍)
 urlToPostDanmu:""    //用来存储弹幕信息的url  (稍后介绍)
 ```
 _ _ _
-5.在这一节中，向米娜桑介绍DanmuPlayer中的两种js对象，danmu对象及danmuList对象。
+5.在这一节中，向米娜桑介绍DanmuPlayer中的js对象，danmu对象。
+danmu对象意指具体某一条弹幕以及它的信息，它有如下属性：
 
 ```javascript
-danmu对象意指具体某一条弹幕以及它的信息，它有如下属性：
 text——弹幕文本内容。
-color——弹幕颜色。 position——弹幕位置 “0”为滚动 “1” 为顶部 “2”为底部
-size——弹幕文字大小。 “0”为小字 ”1”为大字
-time——弹幕所出现的时间。 单位为”分秒“（及1/10秒，100毫秒）
+color——弹幕颜色。
+position——弹幕位置 0为滚动 1 为顶部 2为底部
+size——弹幕文字大小。 0为小字 1为大字
+time——弹幕所出现的时间。 单位为秒
 isnew——当出现该属性时（属性值可为任意），会认为这是用户新发的弹幕，从而弹幕在显示的时候会有边框。
 ```
 
 举例：
 ```javascript
-var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60};
+var aDanmu={ "text":"这是滚动弹幕" ,color:"white",size:1,position:0,time:2};
+```
+要显示边框的新弹幕：
+```javascript
+<code>var aDanmu={ "text":"这是滚动弹幕" ,color:"white",size:1,position:1,time:2,isnew:""}; </code>
 ```
 要显示边框的新弹幕：
 
 ```javascript
 var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60 ,"isnew":" "};
 ```
-danmuList对象是该弹幕视频中所有danmu对象的集合，是由所有danmu它的存在是为了提高程序的效率。
-每个DanmuPlayer只有一个danmuList对象。DanmuPlayer在运行时会把每个danmu对象写入danmuList对象。
-danmuList对象每个属性的名称为弹幕所出现的时间点(分秒)，属性值为该时间点所出现的所有弹幕的danmu对象(除掉time属性的)所组成的数组。
-例如:
-```javascript
-var danmuList={ 1:[ { "text":"hahahaha" , "color":"red" ,"size":"0","position":"0"},
-{ "text":"233333" , "color":"red" ,"size":"0","position":"2"} ],
- 3:[ { "text":"poi" , "color":"red" ,"size":"1","position":"1"},
-{ "text":"2333" , "color":"#FFFFFF" ,"size":"0","position":"0"} ],
- 50:[ { "text":"XXX真好" , "color":"#FFFFFF" ,"size":"0","position":"2"}, ] };
 
-```
-
-在初始化DanmuPlayer时有个可选的参数danmuList，它的值就应该是一个合法的danmuList对象。有了这个参数，DanmuPlayer会把这个参数值中的danmuList播放于屏幕。（对于danmuList对象，如果暂时不理解可以绕过，很少用到）
-上面的danmuList被传入播放器的效果为：在第1分秒，3分秒，50分秒是播放对应的弹幕
 _ _ _
-6.在这一节中，告诉米娜桑如何和后端连接将弹幕存储于数据库。DanmuPlayer提供了高度封装的和后端ajax交互的接口，你只需按照接口修改出一个或两个后端页面即可。
+6.在这一节中，告诉米娜桑如何和后端连接将弹幕存储于数据库。DanmuPlayer提供了高度封装的和后端ajax交互的接口，你只需按照接口修改出一个或两个后端页面即可。当然，也可以使用自己的接口！
 
 **方法1：**
 在初始化DanmuPlayer时，两个参数urlToGetDanmu和urlToPostDanmu就是用来和后端连接的。urlToGetDanmu用来获取弹幕，urlToPostDanmu用来存储弹幕。urlToGetDanmu和urlToPostDanmu接受的参数都是url。
@@ -106,22 +100,25 @@ DanmuPlayer在页面载入时，会向urlToGetDanmu所对应的页面发送Get�
 当用户发弹幕时，DanmuPlayer向urlToPostDanmu发送post请求，报文的内容是用户所发弹幕的danmu对象（字符串）（遵循JSON格式标准）。
 如果你需要在get和post的同时向后端发送其他参数，请在URL里以get的形式发送。
 
-这里有一个简单的php版的urlToGetDanmu和urlToPostDanmu所对应页面的编写示例：
+demo里有一个简单的php版的urlToGetDanmu和urlToPostDanmu所对应页面的编写示例：
 
 
 
 **方法2：**
-在播放器初始化前从后端取得任意格式的弹幕，整理成danmuList对象后传入播放器。
 
-**方法3：**
-DanmuPlayer中有一个class为danmu-div的标签（此标签是一个jQuery.danmu.js的容器,详情请参照<a target="_blank" href="http://github.com/chiruom/danmu">jQuery.danmu.js项目</a>）
-可以调用jQuery.danmu.js的addDanmu方法逐一添加弹幕（注意选择器要带上播放器的id以避免冲突）：
-
+使用如下语句在视频播放前为播放器添加弹幕或弹幕数组（jQuery选择器为播放器的id、空格、 .danmu-div ）：
 ```javascript
-$('#danmp .danmu-div').danmu(addDanmu,danmu类型对象);
+$('#danmp .danmu-div').danmu(addDanmu,弹幕对象 或弹幕对象数组);
 ```
-
-
+举例：
+```javascript
+$("#danmup .danmu-div").danmu("addDanmu",[
+{ text:"这是滚动弹幕" ,color:"white",size:1,position:0,time:2}
+ ,{ text:"这是顶部弹幕" ,color:"yellow" ,size:1,position:1,time:3}
+,{ text:"这是底部弹幕" , color:"red" ,size:1,position:2,time:3}
+ ])
+```
+DanmuPlayer中有一个class为danmu-div的标签（此标签是一个jQuery弹幕插件的容器,详情请参照 jQuery.danmu.js( http://github.com/chiruom/danmu )项目
 
 
 其他方法

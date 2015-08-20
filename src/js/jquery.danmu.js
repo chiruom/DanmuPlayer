@@ -233,14 +233,12 @@ var cyntax = {
 		this.$element	= $(element);
 		this.options	= options;
 		this.id=$(element).attr("id");
-		$(element).data("nowtime",0);
+		$(element).data("nowTime",0);
 		$(element).data("danmuList",options.danmuList);
 		$(element).data("opacity",options.opacity);
 		$(element).data("paused",1);
 		$(element).data("topSpace",0);
 		$(element).data("bottomSpace",0);
-
-
 		this.$element .css({
 			"position":"absolute",
 			"left":this.options.left,
@@ -257,25 +255,41 @@ var cyntax = {
 		var widt=this.$element.width();
 		var rowCount=parseInt(heig/options.FontSizeBig);
 		var rowUsed=[];
-this.shiftFlat=0;
+//this.shiftFlat=0;
 		$("<div class='danmakuTimer'></div>").appendTo(this.$element );
 		this.$timer=$(".danmakuTimer");
 		this.$timer.timer({
-			delay: 100,
+			delay: 1000,
 			repeat: options.sumTime,
 			autostart: false,
 			callback: function( index ) {
-				if(me.shiftFlat > 15){
-					rowUsed.shift();
-					me.shiftFlat=0;
+                //计时前置  试验表明前置很好
+                if(me.options.danmuLoop && $(element).data("nowTime") >= $(element).data("sumTime")){
+                    $(element).data("nowTime",0);
+                }
+                $(element).data("nowTime",$(element).data("nowTime")+1);
+				var temTime = 0 ;
+				var temDA=$(element).data("danmuList")[(parseInt($(element).data("nowTime"))-30).toString()];
+				if (temDA){
+					for (var i in temDA){
+				  		if(temDA[i]["position"] == 0 ) {
+							temTime=temTime+1;
+						}
+					}
+					while(temTime){
+						rowUsed.shift();
+						temTime=temTime-1;
+					}
 				}
-				me.shiftFlat=me.shiftFlat+1;
 				rowCount=parseInt(heig/options.FontSizeBig);
+                if(me.options.SubtitleProtection){
+                    rowCount=rowCount-3;
+                }
 				heig=$(element).height();
 				widt=$(element).width();
 				var speed=parseInt(widt/(672/options.speed));
-				if($(element).data("danmuList")[$(element).data("nowtime")]){
-					var danmus=$(element).data("danmuList")[$(element).data("nowtime")];
+				if($(element).data("danmuList")[$(element).data("nowTime")]){
+					var danmus=$(element).data("danmuList")[$(element).data("nowTime")];
 					for(var i=0;i<danmus.length;i++){
 						var a_danmu="<div class='danmaku' id='"+me.id+"tempDanmaku'></div>";
 						$(element).append(a_danmu);
@@ -299,33 +313,25 @@ this.shiftFlat=0;
 						}
 						if( danmus[i].size == 0)  $("#"+me.id+"tempDanmaku").css("font-size",options.fontSizeSmall);
 						if  ( danmus[i].position == 0){
-                           var danmakuOP=parseInt(rowCount/2);
-                            var row=parseInt(danmakuOP*Math.random());
-							//var row var i = 0;
-							console.log("row"+row);
-							console.log("rowUsed"+rowUsed);
+                            var danmakuOP=parseInt(rowCount);
+                            if(me.options.positionOptimize){
+                                danmakuOP=parseInt(rowCount/2);
+                            }
+
+							var row=parseInt(danmakuOP*Math.random());
 							while (rowUsed.indexOf(row)>=0 && rowUsed.length < rowCount ){
-								console.log("re");
-                                row=(row+1)%rowCount;
-								console.log("new row"+row);
+								row=(row+1)%rowCount;
 							}
-							//var row=parseInt(Math.random()*rowCount);
-							////var row var i = 0;
-                            //
-							//while (rowUsed.indexOf(row)>=0 && rowUsed.length <= rowCount ){
-							//	row=parseInt(Math.random()*rowCount);
-							//}
-
-
 							rowUsed.push(row);
 							if (rowUsed.length >= rowCount){
 								rowUsed=[];
 							}
 							var top_local=(row)*options.FontSizeBig;
-
+                            var randomLeft=parseInt(Math.random()*10);
+                            var left_local=randomLeft+$(this).width();
 							$("#"+me.id+"tempDanmaku").css({"position":"absolute"
 								,"top":top_local
-								,"left":options.width
+								,"left":left_local
 							});
 							var flyTmpName=me.id+"fly"+parseInt(heig*Math.random()).toString();
 							$("#"+me.id+"tempDanmaku").attr("id",flyTmpName);
@@ -353,7 +359,7 @@ this.shiftFlat=0;
 						}
 						else if ( danmus[i].position == 2){
 							var bottomTmpId=me.id+"bottom"+parseInt(10000*Math.random()).toString();
-							$("#"+me.id+"tempDanmaku").attr("id",bottomTmpId)
+							$("#"+me.id+"tempDanmaku").attr("id",bottomTmpId);
 							$("#"+bottomTmpId).css({
 								"width":options.width
 								,"text-align":"center"
@@ -371,7 +377,8 @@ this.shiftFlat=0;
 						} //else if
 					}   // for in danmus
 				}  //if (danmus)
-				$(element).data("nowtime",$(element).data("nowtime")+1);
+
+
 
 
 			}
@@ -386,13 +393,16 @@ this.shiftFlat=0;
 		width: 640,
 		zindex :100,
 		speed:7000,
-		sumTime:65535	,
+		sumTime:65535,
+        danmuLoop:false,
 		danmuList:{},
 		defaultFontColor:"#FFFFFF",
 		fontSizeSmall:16,
 		FontSizeBig:24,
 		opacity:"0.9",
-		topBottonDanmuTime:6000
+		topBottonDanmuTime:6000,
+        SubtitleProtection:false,
+        positionOptimize:false
 	};
 
 
@@ -402,21 +412,13 @@ this.shiftFlat=0;
 		this.$element.data("paused",0);
 	};
 
-//
-//Danmu.prototype.danmuShow = function(arg){
-//	this.$timer.timer('stop');
-//	$('.danmaku').remove();
-//	nowtime=0;
-//	this.$element.data("paused",1);
-//	this.$element.data("nowtime",0);
-//};
 
 	Danmu.prototype.danmuStop = function(){
 		this.$timer.timer('stop');
 		$("#"+this.id+' .danmaku').remove();
-		nowtime=0;
+		nowTime=0;
 		this.$element.data("paused",1);
-		this.$element.data("nowtime",0);
+		this.$element.data("nowTime",0);
 	};
 
 
@@ -438,16 +440,41 @@ this.shiftFlat=0;
 
 	};
 
-	Danmu.prototype.addDanmu = function(arg){
-		//console.log("add"+arg.time);
-		if(this.$element.data("danmuList")[arg.time]){
-			this.$element.data("danmuList")[arg.time].push(arg);
-		}
-		else{
-			this.$element.data("danmuList")[arg.time]=new Array();
-			this.$element.data("danmuList")[arg.time].push(arg);
-		}
 
+    Danmu.prototype.setTime= function(arg){
+        $("#"+this.id+' .danmaku').remove();
+        this.$element.data("nowTime",arg);
+
+    };
+
+    Danmu.prototype.setOpacity= function(arg){
+        $("#"+this.id+' .danmaku').css("opacity",arg);
+        this.$element.data("opacity",arg);
+
+    };
+
+
+    Danmu.prototype.addDanmu = function(arg){
+		if (arg instanceof Array){
+			for (var i in arg){
+				if(this.$element.data("danmuList")[arg[i]["time"]]){
+					this.$element.data("danmuList")[arg[i]["time"]].push(arg[i]);
+				}
+				else{
+					this.$element.data("danmuList")[arg[i]["time"]]=[];
+					this.$element.data("danmuList")[arg[i]["time"]].push(arg[i]);
+				}
+			}
+		}
+        else {
+            if(this.$element.data("danmuList")[arg.time]){
+                this.$element.data("danmuList")[arg.time].push(arg);
+            }
+            else{
+                this.$element.data("danmuList")[arg.time]=[];
+                this.$element.data("danmuList")[arg.time].push(arg);
+            }
+        }
 	};
 
 

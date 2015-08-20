@@ -3,28 +3,40 @@
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <!--<link href="src/css/scojs.css" rel="stylesheet">-->
-  <!--<link href="src/css/colpick.css" rel="stylesheet">-->
-  <!--<link href="src/css/bootstrap.css" rel="stylesheet">-->
-  <!--<link rel="stylesheet" href="src/css/main.css">-->
-  <link rel="stylesheet" href="../dist/css/danmuplayer.css">
+  <link href="../src/css/scojs.css" rel="stylesheet">
+  <link href="../src/css/colpick.css" rel="stylesheet">
+  <link href="../src/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="../src/css/main.css">
+  <link rel="stylesheet" href="../src/css/main.css">
+  <!--<link rel="stylesheet" href="../dist/css/danmuplayer.css">-->
 </head>
 <body>
-<div id="m2" style="left: 50%;margin-left:-400px;top:150px">
+<div id="danmup" style="left: 50%;margin-left:-400px;top:100px">
 
 
 </div>
 
 </body>
 <script src="../src/js/jquery-2.1.4.min.js"></script>
-<script src="../dist/js/danmuplayer.min.js"></script>
+<script src="../src/js/sco.tooltip.js"></script>
+<script src="../src/js/colpick.js"></script>
+<script src="../src/js/jquery.danmu.js"></script>
+<script src="../src/js/main.js"></script>
+<!--<script src="../dist/js/danmuplayer.min.js"></script>-->
 <script>
-  $("#m2").DanmuPlayer({
+  $("#danmup").DanmuPlayer({
     src:"level5.mp4",
     height: "480px", //区域的高度
     width: "800px" //区域的宽度
     ,urlToGetDanmu:"query.php"
     ,urlToPostDanmu:"stone.php"
-  } );
+  });
+
+  $("#danmup .danmu-div").danmu("addDanmu",[
+    { "text":"这是滚动弹幕" ,color:"white",size:1,position:0,time:2}
+      ,{ "text":"这是顶部弹幕" ,color:"yellow" ,size:1,position:1,time:3}
+    ,{ "text":"这是底部弹幕" , color:"red" ,size:1,position:2,time:3}
+
+  ])
 </script>
 </html>
