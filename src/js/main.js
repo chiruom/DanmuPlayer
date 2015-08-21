@@ -230,6 +230,7 @@
 
             if ($(e.data.that.id+ " .danmu-video").get(0).currentTime == 0) {
                 $(e.data.that.id+" .danmu-div").data("nowTime", 0);
+                $(e.data.that.id+" .danmu-div").data("danmuPause");
             } else {
                 $(e.data.that.id+" .danmu-div").data("nowTime", parseInt($(e.data.that.id+ " .danmu-video").get(0).currentTime));
                 $(e.data.that.id+" .danmu-div").data("danmuPause");
