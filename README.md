@@ -18,7 +18,7 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 ```
 ###开始使用
 
-1.第一步引入本播放器的js和css文件,需要和jQuery一起引用。
+**1**.第一步引入本播放器的js和css文件,需要和jQuery一起引用。
 
 ```html
 <link rel="stylesheet" href="css/danmuplayer.css">;
@@ -26,13 +26,13 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 <script src="js/danmuplayer.js"></script>;
 ```
 _ _ _
-2.新建一个div，这里把id值设为danmp
+**2**.新建一个div，这里把id值设为danmp
 
 ```html
 <div id="danmup"></div>
 ```
 _ _ _
-3.初始化DanmuPlayer，利用刚才新建的div.
+**3**.初始化DanmuPlayer，利用刚才新建的div.
 
 ```javascript
 $("#danmup").danmuplayer({
@@ -46,25 +46,25 @@ $("#danmup").danmuplayer({
 
 ###进阶使用
 _ _ _
-4.在上一步中，我们用调用某jQuery对象的方法初始化了一个弹幕播放器，并传递了一些参数（src,width,height）。其实这个方法具有以下参数 （除了视频源外其余参数均可选，冒号后面的为默认值）
+**4**.在上一步中，我们用调用某jQuery对象的方法初始化了一个弹幕播放器，并传递了一些参数（src,width,height）。其实这个方法具有以下参数 （除了视频源外其余参数均可选，冒号后面的为默认值）
 
 ```javascript
 src: "shsn.mp4",    //视频源
 height: 450,             //播放器的高度
 width: 800,				//播放器的宽度,最小宽度支持为720
-speed:20000,			//弹幕速度，这是数值指的是视频穿过640像素所需要的毫秒数
+speed:20000,			//弹幕速度，这是数值指的是视频穿过672像素所需要的毫秒数
 sumTime:65535,				//弹幕视频的总时间，可不填。
 danmuList:{},				//弹幕列表
-defaultColor:"#ffffff",   //弹幕的默认字体大小
+defaultColor:"#ffffff",   //弹幕的默认字体颜色
 fontSizeSmall:16,			//小弹幕的字号
-FontSizeBig:24,				//小弹幕的字号
+FontSizeBig:24,				//大弹幕的字号
 opacity:"1",  			//弹幕默认透明度
 topBottonDanmuTime:6000,  //底部及顶部弹幕存留的时间
 urlToGetDanmu:"",     //用来接收弹幕信息的url  (稍后介绍)
 urlToPostDanmu:""    //用来存储弹幕信息的url  (稍后介绍)
 ```
 _ _ _
-5.在这一节中，向米娜桑介绍DanmuPlayer中的js对象，danmu对象。
+**5**.向米娜桑介绍DanmuPlayer中的js对象：danmu对象。
 danmu对象意指具体某一条弹幕以及它的信息，它有如下属性：
 
 ```javascript
@@ -78,20 +78,17 @@ isnew——当出现该属性时（属性值可为任意），会认为这是用
 
 举例：
 ```javascript
-var aDanmu={ "text":"这是滚动弹幕" ,color:"white",size:1,position:0,time:2};
+var aDanmu={ text:"这是弹幕" ,color:"white",size:1,position:0,time:2};
 ```
 要显示边框的新弹幕：
 ```javascript
-<code>var aDanmu={ "text":"这是滚动弹幕" ,color:"white",size:1,position:1,time:2,isnew:""}; </code>
+var aDanmu={ text:"这是弹幕" ,color:"white",size:1,position:1,time:2,isnew:1};
 ```
-要显示边框的新弹幕：
 
-```javascript
-var a_danmu={ "text":"2333333" , "color":"green" ,"size":"1","position":"0","time":60 ,"isnew":" "};
-```
+
 
 _ _ _
-6.在这一节中，告诉米娜桑如何和后端连接将弹幕存储于数据库。DanmuPlayer提供了高度封装的和后端ajax交互的接口，你只需按照接口修改出一个或两个后端页面即可。当然，也可以使用自己的接口！
+**6**.在这一节中，告诉米娜桑如何和后端连接将弹幕存储于数据库。DanmuPlayer提供了高度封装的和后端ajax交互的接口，你只需按照接口修改出一个或两个后端页面即可。当然，也可以使用自己的接口！
 
 **方法1：**
 在初始化DanmuPlayer时，两个参数urlToGetDanmu和urlToPostDanmu就是用来和后端连接的。urlToGetDanmu用来获取弹幕，urlToPostDanmu用来存储弹幕。urlToGetDanmu和urlToPostDanmu接受的参数都是url。
@@ -100,7 +97,7 @@ DanmuPlayer在页面载入时，会向urlToGetDanmu所对应的页面发送Get�
 当用户发弹幕时，DanmuPlayer向urlToPostDanmu发送post请求，报文的内容是用户所发弹幕的danmu对象（字符串）（遵循JSON格式标准）。
 如果你需要在get和post的同时向后端发送其他参数，请在URL里以get的形式发送。
 
-demo里有一个简单的php版的urlToGetDanmu和urlToPostDanmu所对应页面的编写示例：
+gitHub的demo里有一个简单的php版的urlToGetDanmu和urlToPostDanmu所对应页面的编写示例：
 
 
 
@@ -108,30 +105,30 @@ demo里有一个简单的php版的urlToGetDanmu和urlToPostDanmu所对应页面�
 
 使用如下语句在视频播放前为播放器添加弹幕或弹幕数组（jQuery选择器为播放器的id、空格、 .danmu-div ）：
 ```javascript
-$('#danmp .danmu-div').danmu(addDanmu,弹幕对象 或弹幕对象数组);
+$('#danmp .danmu-div').danmu(addDanmu,弹幕对象 或 弹幕对象数组);
 ```
 举例：
 ```javascript
 $("#danmup .danmu-div").danmu("addDanmu",[
-{ text:"这是滚动弹幕" ,color:"white",size:1,position:0,time:2}
- ,{ text:"这是顶部弹幕" ,color:"yellow" ,size:1,position:1,time:3}
-,{ text:"这是底部弹幕" , color:"red" ,size:1,position:2,time:3}
- ])
+   {text:"这是滚动弹幕" ,color:"white",size:1,position:0,time:2}
+  ,{text:"这是顶部弹幕" ,color:"yellow" ,size:1,position:1,time:3}
+  ,{text:"这是底部弹幕" , color:"red" ,size:1,position:2,time:3}
+])
 ```
-DanmuPlayer中有一个class为danmu-div的标签（此标签是一个jQuery弹幕插件的容器,详情请参照 jQuery.danmu.js( http://github.com/chiruom/danmu )项目
+说明：DanmuPlayer中有一个class为danmu-div的标签（此标签是一个jQuery弹幕插件的容器,详情请参照 jQuery.danmu.js( http://github.com/chiruom/danmu )项目
 
 
 其他方法
 _ _ _
-8.由于DanmuPlayer中有一个html5 video便签，故几乎所有的html5 videoAPI和事件等都可用于DanmuPlayer。
-	可以使用代码任意改变video的播放时间,弹幕流的时间会与自动之同步
+**7**.由于DanmuPlayer中有一个html5 video便签，故几乎所有的html5 videoAPI和事件等都可用于DanmuPlayer。
+可以使用代码任意改变video的播放时间,弹幕流的时间会与自动之同步。
 
 _ _ _
-9.注意：一个页面中可以防止多个DanmuPlayer,但是由于所有的danmuPlayer绑定有相同的键盘快捷键，可能会导致键盘事件的失灵。
+**9**.注意：一个页面中可以防止多个DanmuPlayer,但是由于所有的danmuPlayer绑定有相同的键盘快捷键，可能会导致键盘事件的失灵。
 
 ### 许可
 你可以随意使用本项目，只需要在您的项目中添加这么一行注释：
-```
+```html
 DanmuPlayer (//github.com/chiruom/danmuplayer/) - Licensed under the MIT license
 ```
 
