@@ -118,7 +118,7 @@ $("#danmup .danmu-div").danmu("addDanmu",[
 说明：DanmuPlayer中有一个class为danmu-div的标签（此标签是一个jQuery弹幕插件的容器,详情请参照 jQuery.danmu.js( http://github.com/chiruom/danmu )项目
 
 
-其他方法
+
 _ _ _
 **7**.由于DanmuPlayer中有一个html5 video便签，故几乎所有的html5 videoAPI和事件等都可用于DanmuPlayer。
 可以使用代码任意改变video的播放时间,弹幕流的时间会与自动之同步。
