@@ -5,6 +5,8 @@
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-uglify": "^0.8.1"
+    "grunt-contrib-cssmin": "^0.13.0",
+    "grunt-contrib-uglify": "^0.8.1",
+    "grunt-font-spider": "0.0.4"
   }
 }

@@ -2,20 +2,28 @@
 ## Html5弹幕视频播放器插件
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)     [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕视频播放，接受用户发送彩色弹幕，实时调解弹幕显示效果等功能。 Danmmu Player意在使开发者能便捷的在网站中实现弹幕视频播放。
+**Danmmu Player是一个轻量级具备弹幕功能的Html5视频播放器，仅63KB大小。**
+具备弹幕视频播放，接受用户发送彩色弹幕，实时调解弹幕显示效果等功能。
+Danmmu Player意在使开发者能便捷的在网站中实现弹幕视频播放。
 
-**完整文档及Demo：http://www.liyawei.cn/danmuplayer/**
+**Demo地址：http://www.liyawei.cn/danmuplayer/**
 
-```
-此版本为V2版本，相对V1主要做了以下更新：
-1.和videojs解耦合，提高了运行效率和稳定性。
-2.API规范化。
-3.弹幕较少时主要飘于视频的上半部分，与AB站相同。
-4.一个页面可以添加多个播放器啦。
-5.弹幕对象的时间改为秒，不再用分秒作为单位了。
-6.性能的优化，更少的CPU占用和漏帧。
-*：此版本API较上一版本有较大改变，若需使用上一版本，请去OldEdition目录下。
-```
+**更新日志**
+>**Vision 3**
+>1.增加了弹幕显示的数量的控制，屏幕上的显示的弹幕数量和每秒的最大弹幕数量。
+>2.大幅度的性能优化，大幅度减少了漏帧的问题。
+>3.增加了缓冲条和缓冲时等待的效果。
+>4.切割了所使用的web font，大幅的减少了体积。
+>5.对弹幕位置做了进一步优化，减少了重叠现象的发送。
+>- - -
+> **Vision 2**
+> 1.和videojs解耦合，提高了运行效率和稳定性。
+> 2.API规范化。  *API有较大变化。
+> 3.弹幕较少时主要飘于视频的上半部分，与AB站相同。
+> 4.一个页面可以添加多个播放器啦。
+>
+> *.此版本API较上一版本有较大改变，若需使用上一版本，请去OldEdition目录下。
+
 ###开始使用
 
 **1**.第一步引入本播放器的js和css文件,需要和jQuery一起引用。
@@ -25,13 +33,13 @@ Danmmu Player是一个具备弹幕功能的Html5视频播放器。 具备弹幕�
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/danmuplayer.js"></script>
 ```
-_ _ _
+---
 **2**.新建一个div，这里把id值设为danmp
 
 ```html
 <div id="danmup"></div>
 ```
-_ _ _
+---
 **3**.初始化DanmuPlayer，利用刚才新建的div.
 
 ```javascript
@@ -45,7 +53,7 @@ $("#danmup").danmuplayer({
 等等，现在用户发的弹幕貌似没有写入数据库，也就是说是一次性的，刷新页面后就没了？是这样的，但是接下来就告诉你可以怎么做。
 
 ###进阶使用
-_ _ _
+---
 **4**.在上一步中，我们用调用某jQuery对象的方法初始化了一个弹幕播放器，并传递了一些参数（src,width,height）。其实这个方法具有以下参数 （除了视频源外其余参数均可选，冒号后面的为默认值）
 
 ```javascript
@@ -61,9 +69,12 @@ FontSizeBig:24,				//大弹幕的字号
 opacity:"1",  			//弹幕默认透明度
 topBottonDanmuTime:6000,  //底部及顶部弹幕存留的时间
 urlToGetDanmu:"",     //用来接收弹幕信息的url  (稍后介绍)
-urlToPostDanmu:""    //用来存储弹幕信息的url  (稍后介绍)
+urlToPostDanmu:"" ,   //用来存储弹幕信息的url  (稍后介绍)
+maxCountInScreen: 40,   //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
+maxCountPerSec: 10      //每秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
+});
 ```
-_ _ _
+---
 **5**.向米娜桑介绍DanmuPlayer中的js对象：danmu对象。
 danmu对象意指具体某一条弹幕以及它的信息，它有如下属性：
 
@@ -87,7 +98,7 @@ var aDanmu={ text:"这是弹幕" ,color:"white",size:1,position:1,time:2,isnew:1
 
 
 
-_ _ _
+---
 **6**.在这一节中，告诉米娜桑如何和后端连接将弹幕存储于数据库。DanmuPlayer提供了高度封装的和后端ajax交互的接口，你只需按照接口修改出一个或两个后端页面即可。当然，也可以使用自己的接口！
 
 **方法1：**
@@ -119,13 +130,19 @@ $("#danmup .danmu-div").danmu("addDanmu",[
 
 
 
-_ _ _
+---
 **7**.由于DanmuPlayer中有一个html5 video便签，故几乎所有的html5 videoAPI和事件等都可用于DanmuPlayer。
 可以使用代码任意改变video的播放时间,弹幕流的时间会与自动之同步。
 
-_ _ _
+---
+
 **8**.注意：一个页面中可以防止多个DanmuPlayer,但是由于所有的danmuPlayer绑定有相同的键盘快捷键，可能会导致键盘事件的失灵。
 
+---
+
+_ _ _
+**9**.如果你只需把弹幕应用视频除外的网页的其他位置，请看DanmuPlayer的姊妹项目jQuery.Danmu.js,它是一个独立于视频的弹幕插件。
+项目地址： http://www/liyawei.cn/danmu/
 ### 许可
 你可以随意使用本项目，只需要在您的项目中添加这么一行注释：
 ```html

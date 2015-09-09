@@ -59,7 +59,6 @@
 			if (allowMirror === undefined) {
 				allowMirror = false;
 			}
-			console.log(this.options.position);
 			this.$tooltip714.removeClass('pos_w pos_e pos_n pos_s pos_nw pos_ne pos_se pos_sw pos_center').addClass('pos_' + this.options.position);
 			var  targetBox = this.$target.offset()
 				,tooltipBox = {left: 0, top: 0, width: Math.floor(this.$tooltip714.outerWidth()), height: Math.floor(this.$tooltip714.outerHeight())}

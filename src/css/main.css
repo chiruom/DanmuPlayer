@@ -5,13 +5,37 @@
     src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 
+.danmu-player{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
 
+.danmu-player:before,
+.danmu-player:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 
 .danmu-player input:focus {
     outline: 0;
 
 }
-
+.danmu-player input[type="textarea"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 35%;
+}
 
 .danmu-player input {
     font-family: "Microsoft YaHei" !important;
@@ -20,7 +44,7 @@
 .danmu-player input[type="radio"] {
 
 
--webkit-appearance: none;
+    -webkit-appearance: none;
     appearance: none;
     padding: 2px;
     border: 2px solid dodgerblue;
@@ -115,6 +139,22 @@
     z-index: 998 !important;
 }
 
+
+.danmu-player .danmu-player-load{
+    display: none;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    margin-left: -25px;
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 4px;
+    z-index: 1002;
+    top: 50%;
+    margin-top: -50px;
+    padding: 5px;
+}
 .danmu-player .danmu-player-ctrl{
     position: absolute;
     left: 0;
@@ -133,7 +173,7 @@
     position:relative ;
     width: 100%;
     height: 10px;
-    background-color: gray;
+    background-color: #AAAAAA;
     cursor: pointer;
     z-index: 1000;
 }
@@ -171,18 +211,20 @@
 
 .danmu-player  .ctrl-progress .progress-handle {
     position: absolute;
-    top: 0;
-    right:-5px;
-    width: 12px;
-    height: 100%;
+    top: -1px;
+    right:-7px;
+    width: 14px;
+    height: 14px;
     line-height: 5px;
-    background-color: lightskyblue;
+    background-color: dodgerblue;
     color: dodgerblue;
     /*box-shadow: -1px -1px white;*/
-    border-bottom-right-radius: 5px; ;
-    border-top-right-radius: 5px; ;
+border-radius: 50%;
+    border-color: dodgerblue;
     z-index: 1004;
     overflow: visible;
+    box-shadow: 0 0 2px #fff;
+
 }
 
 .danmu-player   .progress-handle span {
@@ -243,7 +285,7 @@
 }
 
 .danmu-player .duration{
-padding-right: 4%;
+    padding-right: 4%;
 }
 
 
@@ -336,8 +378,8 @@ padding-right: 4%;
 }
 
 .danmu-player .full-screen {
-  
-margin-right: 5px;
+
+    margin-right: 5px;
 }
 
 
@@ -347,12 +389,13 @@ margin-right: 5px;
     z-index:997  ! important ;
     top:0 ! important;
     left:0 ! important ;
+    margin:0 !important;
     height:100vh  ! important ;
     width:100vw  ! important ;
 }
 
 
 .danmu-player-tip {
-/*display:none;*/
+    /*display:none;*/
 
 }
