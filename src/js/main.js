@@ -167,7 +167,7 @@
             var color = e.data.that.danmuColor;
             var position = $(e.data.that.id + " input[name=danmu_position]:checked").val();
             var size = $(e.data.that.id + " input[name=danmu_size]:checked").val();
-            var time = $(e.data.that.id + " .danmu-div").data("nowTime") + 1;
+            var time = $(e.data.that.id + " .danmu-div").data("nowTime") + 3;
             var textObj = '{ "text":"' + text + '","color":"' + color + '","size":"' + size + '","position":"' + position + '","time":' + time + '}';
             if (e.data.that.options.urlToPostDanmu)
                 $.post(e.data.that.options.urlToPostDanmu, {
@@ -202,12 +202,21 @@
 
             var buffPrecent = (bufTime/that.duration) * 100;
             $(that.id + ".danmu-player .ctrl-progress .buffered ").css("width", buffPrecent + "%");
-            //时间轴修正
-            if (Math.abs($(that.id + " .danmu-div").data("nowTime") - that.video.currentTime) > 0.5) {
-                $(that.id + " .danmu-div").data("nowTime", parseInt(that.video.currentTime));
-            }
+           // 时间轴修正
+           // if (Math.abs($(that.id + " .danmu-div").data("nowTime") - parseInt(that.video.currentTime)*10) > 1) {
+           //     $(that.id + " .danmu-div").data("nowTime", parseInt(that.video.currentTime)*10);
+           //     console.log("revise time：")
+           // }
         }, 1000);
 
+
+        var secTimer = setInterval(function () {
+           // if (Math.abs($(that.id + " .danmu-div").data("nowTime") - parseInt(that.video.currentTime*10)) > 1) {
+              //  console.log("revise time"+$(that.id + " .danmu-div").data("nowTime")+ ","+that.video.currentTime*10);
+                $(that.id + " .danmu-div").data("nowTime", parseInt(that.video.currentTime*10));
+
+          //  }
+        }, 50);
         //按键事件
         $(document).ready(function () {
             jQuery("body").keydown({that: that}, function (event) {
@@ -236,7 +245,7 @@
                 $(e.data.that.id + " .danmu-div").data("nowTime", 0);
                 $(e.data.that.id + " .danmu-div").data("danmuPause");
             } else {
-                $(e.data.that.id + " .danmu-div").data("nowTime", parseInt($(e.data.that.id + " .danmu-video").get(0).currentTime));
+                $(e.data.that.id + " .danmu-div").data("nowTime", parseInt($(e.data.that.id + " .danmu-video").get(0).currentTime)*10);
                 $(e.data.that.id + " .danmu-div").data("danmuPause");
             }
             $(e.data.that.id + " .danmu-player-load").css("display","block");
@@ -250,7 +259,7 @@
                 $(e.data.that.id + " .danmu-div").data("nowTime", 0);
                 $(e.data.that.id + " .danmu-div").data("danmuResume");
             } else {
-                $(e.data.that.id + " .danmu-div").data("nowTime", parseInt($(e.data.that.id + " .danmu-video").get(0).currentTime));
+                $(e.data.that.id + " .danmu-div").data("nowTime", parseInt($(e.data.that.id + " .danmu-video").get(0).currentTime)*10);
                 $(e.data.that.id + " .danmu-div").data("danmuResume");
             }
             $(e.data.that.id + " .danmu-player-load").css("display","none");
@@ -390,7 +399,7 @@
         height: 360,
         width: 640,
         zindex: 100,
-        speed: 17000,
+        speed: 8000,
         sumTime: 65535,
         defaultColor: "#ffffff",
         fontSizeSmall: 16,
