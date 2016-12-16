@@ -13,12 +13,11 @@ $first=0;
 while($row=mysql_fetch_array($query)){
 	if ($first) {
 		echo ",";
-		
+		$first=1;
 	}
-$first=1;
-echo "'".$row['danmu']."'";
+	echo "'".$row['danmu']."'";
 }
-	echo "]";
+echo "]";
 
 
 
