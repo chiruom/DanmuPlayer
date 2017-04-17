@@ -1,7 +1,7 @@
 # DanmuPlayer
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-##Html5弹幕视频播放器插件
+## Html5弹幕视频播放器插件
 
 
 Danmmu Player是一个具备弹幕功能的Html5视频播放器。
